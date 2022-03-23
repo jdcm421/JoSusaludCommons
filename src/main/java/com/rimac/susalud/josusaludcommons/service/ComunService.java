@@ -1,12 +1,11 @@
 package com.rimac.susalud.josusaludcommons.service;
 
 import java.sql.SQLException;
-
-import com.rimac.susalud.josusaludcommons.model.DatosMQ;
+import com.rimac.susalud.josusaludcommons.response.Response;
 
 public interface ComunService {
 
-	public DatosMQ obtenerDatosMQ(String filePropertiesName) throws SQLException, Exception;
-	public String obtenerValorParametro(String filePropertiesName, String parametro) throws SQLException, Exception;
+	public Response obtenerDatosMQ(String filePropertiesName) throws SQLException, Exception;
+	public Response obtenerValorParametro(String filePropertiesName, String parametro) throws SQLException, Exception;
 
 }
