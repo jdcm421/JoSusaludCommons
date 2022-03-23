@@ -58,7 +58,7 @@ public class CommnsController {
     }
     
     @ApiOperation(value = "Obtener el id de mensaje de envio", tags = {"Controlador Commons"})
-    @GetMapping(value = "/obtener/message-envio", consumes = "", produces = "application/json")
+    @GetMapping(value = "/obtener/message-envio", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = Response.class),
         @ApiResponse(code = 404, message = "Not Found"),
