@@ -42,7 +42,7 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerAfiliadoCargaInicial(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
+    public ResponseEntity<Response> obternerAfiliadoCargaInicial(@RequestParam String filePropertiesName,@RequestParam String estadoAfiliado,@RequestParam String indicadorCargaInicial){
         return null;
     }
     
@@ -53,7 +53,7 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerAfliadoSuSalud(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
+    public ResponseEntity<Response> obternerAfliadoSuSalud(@RequestParam String filePropertiesName,@RequestParam String estadoTrama){
         return null;
     }
     

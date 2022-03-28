@@ -12,8 +12,9 @@ public class Trama997Bean {
 	private String idTransaccion;
 	private String nuControl;
 	private String nuControlST;
-	private Vector<Vector<String>> excepciones = new Vector<Vector<String>>();
+	private Vector<Vector<String>> excepciones = new Vector<>();
 	private In997RegafiUpdate dato;
+	
 	public String getFeTransaccion() {
 		return feTransaccion;
 	}

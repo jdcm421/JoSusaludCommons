@@ -4,9 +4,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.rimac.susalud.josusaludcommons.model.*;
+import com.rimac.susalud.josusaludcommons.service.impl.AfiliadoServiceImpl;
 
 public class AfiliadoRepository {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AfiliadoRepository.class);
+
 
     public List<AfiliadoEnvio> obtenerAfiliadosEnvio(String filePropertiesName, String estadoAfiliado) throws SQLException, Exception {
 		return null;

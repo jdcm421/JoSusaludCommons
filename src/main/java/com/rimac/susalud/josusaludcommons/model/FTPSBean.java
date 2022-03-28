@@ -14,6 +14,7 @@ public class FTPSBean implements Serializable {
 	private String localPath;
 	private String remotePath;
 	private String workinMode;
+	
 	public String getServer() {
 		return server;
 	}
