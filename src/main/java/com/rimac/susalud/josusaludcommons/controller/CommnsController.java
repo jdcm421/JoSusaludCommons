@@ -1,6 +1,8 @@
 package com.rimac.susalud.josusaludcommons.controller;
 
 import com.rimac.susalud.josusaludcommons.exception.ExceptionResponse;
+import com.rimac.susalud.josusaludcommons.request.MessageRequest;
+import com.rimac.susalud.josusaludcommons.request.SuSaludRequest;
 import com.rimac.susalud.josusaludcommons.response.Response;
 import com.rimac.susalud.josusaludcommons.service.AfiliadoService;
 import io.swagger.annotations.Api;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +78,7 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> insertarSuSaludRespuesta(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
+    public ResponseEntity<Response> insertarSuSaludRespuesta(@RequestBody SuSaludRequest request){
         return null;
     }
     
@@ -86,7 +89,7 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> actualizarIdMessage(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
+    public ResponseEntity<Response> actualizarIdMessage(@RequestBody MessageRequest request){
         return null;
     }
     
