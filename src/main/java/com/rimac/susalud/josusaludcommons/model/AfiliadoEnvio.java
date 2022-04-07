@@ -1,5 +1,7 @@
 package com.rimac.susalud.josusaludcommons.model;
 
+import pe.gob.susalud.jr.transaccion.susalud.bean.In271RegafiUpdate;
+
 public class AfiliadoEnvio {
 
 	private String idTrama;

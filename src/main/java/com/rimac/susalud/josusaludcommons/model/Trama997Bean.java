@@ -2,6 +2,8 @@ package com.rimac.susalud.josusaludcommons.model;
 
 import java.util.Vector;
 
+import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
+
 public class Trama997Bean {
 	
 	private String feTransaccion;
@@ -10,6 +12,7 @@ public class Trama997Bean {
 	private String idReceptor;
 	private String idRemitente;
 	private String idTransaccion;
+	private String noTransaccion;
 	private String nuControl;
 	private String nuControlST;
 	private Vector<Vector<String>> excepciones = new Vector<>();
@@ -75,6 +78,10 @@ public class Trama997Bean {
 	public void setDato(In997RegafiUpdate dato) {
 		this.dato = dato;
 	}
-	
-	
+	public String getNoTransaccion() {
+		return noTransaccion;
+	}
+	public void setNoTransaccion(String noTransaccion) {
+		this.noTransaccion = noTransaccion;
+	}
 }
