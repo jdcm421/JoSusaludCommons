@@ -1,6 +1,6 @@
 package com.rimac.susalud.josusaludcommons.request;
 
-import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
+import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
 
 public class SuSaludRequest extends AfiliadoRequest {
 

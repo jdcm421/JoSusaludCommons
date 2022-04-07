@@ -1,5 +1,17 @@
 package com.rimac.susalud.josusaludcommons.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.Properties;
+import java.util.TreeMap;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +30,10 @@ public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, S
 	        String server = prop.getProperty("FTP.SUSALUD.SERVER").trim();
 	        int port = Integer.parseInt(prop.getProperty("FTP.SUSALUD.PORT").trim());
 			
-	        String user = tipoRimac.equals(Constants.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.USERID"):prop.getProperty("FTP.SUSALUD.SEG.USERID");
-	        String pass = tipoRimac.equals(Constants.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.PASSWORD"):prop.getProperty("FTP.SUSALUD.SEG.PASSWORD");
+	        String user = tipoRimac.equals(Constan.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.USERID"):prop.getProperty("FTP.SUSALUD.SEG.USERID");
+	        String pass = tipoRimac.equals(Constan.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.PASSWORD"):prop.getProperty("FTP.SUSALUD.SEG.PASSWORD");
 			
-			String sourcePath = tipoRimac.equals(Constants.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.SOURCEDIRECTORY"):prop.getProperty("FTP.SUSALUD.SEG.SOURCEDIRECTORY");
+			String sourcePath = tipoRimac.equals(Constan.RIMAC_EPS)?prop.getProperty("FTP.SUSALUD.EPS.SOURCEDIRECTORY"):prop.getProperty("FTP.SUSALUD.SEG.SOURCEDIRECTORY");
 			String targetLocalPath = prop.getProperty("FTP.LOCAL.DIRECTORY").trim();
 			
 			ftpsClient = new FTPSClient();
@@ -30,14 +42,14 @@ public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, S
 			if(FTPReply.isPositiveCompletion(reply)) {
 				if(ftpsClient.login(user, pass)){
 					ftpsClient.execPBSZ(0);
-					ftpsClient.execPROT(Constants.DATA_CHANNEL_PROTECTION_PRIVATE);
+					ftpsClient.execPROT(Constan.DATA_CHANNEL_PROTECTION_PRIVATE);
 					ftpsClient.enterLocalPassiveMode();
 					ftpsClient.setFileType(FTP.ASCII_FILE_TYPE);
 					FTPFile[] listFiles = ftpsClient.listFiles(sourcePath);
 					if(listFiles.length>0){
 						for(FTPFile file : listFiles){
-							String fechaActual = AfiliacionUtil.obtenerFecha(Constants.SIMPLE_DATE_FORMAT, new Date());
-							String fechaArchivo = AfiliacionUtil.obtenerFecha(Constants.SIMPLE_DATE_FORMAT, file.getTimestamp().getTime());
+							String fechaActual = AfiliacionUtil.obtenerFecha(Constan.SIMPLE_DATE_FORMAT, new Date());
+							String fechaArchivo = AfiliacionUtil.obtenerFecha(Constan.SIMPLE_DATE_FORMAT, file.getTimestamp().getTime());
 							if(fechaArchivo.equals(fechaActual)){
 								if(!archivoFueDescargado(targetLocalPath, file.getName())){
 									logger.info("Obteniendo archivo FTP: " + file.getName() + " - " + AfiliacionUtil.readableFileSize(file.getSize()));

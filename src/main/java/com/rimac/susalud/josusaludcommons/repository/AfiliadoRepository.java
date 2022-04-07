@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.rimac.susalud.josusaludcommons.model.*;
 import com.rimac.susalud.josusaludcommons.service.impl.AfiliadoServiceImpl;
 
+import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
+
 public class AfiliadoRepository {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AfiliadoRepository.class);

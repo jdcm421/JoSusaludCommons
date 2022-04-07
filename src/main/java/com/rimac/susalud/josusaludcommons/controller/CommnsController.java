@@ -4,6 +4,8 @@ import com.rimac.susalud.josusaludcommons.exception.ExceptionResponse;
 import com.rimac.susalud.josusaludcommons.request.MessageRequest;
 import com.rimac.susalud.josusaludcommons.request.SuSaludRequest;
 import com.rimac.susalud.josusaludcommons.response.Response;
+import com.rimac.susalud.josusaludcommons.response.ResponseAfiliadosSuSalud;
+import com.rimac.susalud.josusaludcommons.response.ResponseObtenerAfiliados;
 import com.rimac.susalud.josusaludcommons.service.AfiliadoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,33 +32,33 @@ public class CommnsController {
     @ApiOperation(value = "Se obtiene el afiliado de envio", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-envio", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerAfliadosEnvio(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
+    public ResponseEntity<ResponseAfiliadosSuSalud> obternerAfliadosEnvio(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado){
         return null;
     }
     
     @ApiOperation(value = "Obtiene el afiliado para carga inicial", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-cargainicial", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerAfiliadoCargaInicial(@RequestParam String filePropertiesName,@RequestParam String estadoAfiliado,@RequestParam String indicadorCargaInicial){
+    public ResponseEntity<ResponseAfiliadosSuSalud> obternerAfiliadoCargaInicial(@RequestParam String filePropertiesName,@RequestParam String estadoAfiliado,@RequestParam String indicadorCargaInicial){
         return null;
     }
     
     @ApiOperation(value = "Obtener afiliados de SuSalud", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-susalud", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerAfliadoSuSalud(@RequestParam String filePropertiesName,@RequestParam String estadoTrama){
+    public ResponseEntity<ResponseObtenerAfiliados> obternerAfliadoSuSalud(@RequestParam String filePropertiesName,@RequestParam String estadoTrama){
         return null;
     }
     

@@ -7,6 +7,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+
+import org.apache.commons.net.PrintCommandListener;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPConnectionClosedException;
+import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.rimac.susalud.josusaludcommons.model.FTPSBean;
@@ -112,7 +118,7 @@ public class FTPSTransfer {
 		catch (FTPConnectionClosedException e){
 			error = true;
 			logger.error("Server closed connection.");
-			logger.error(e);
+			logger.error("Error server closed ",e);
 			e.printStackTrace();
 		}
 		catch (IOException e){
