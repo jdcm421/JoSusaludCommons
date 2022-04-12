@@ -1,6 +1,6 @@
 package com.rimac.susalud.josusaludcommons.util;
 
-import java.io.BufferedReader;
+/*import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,25 +10,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Date;*/
 import java.util.HashMap;
-import java.util.Iterator;
+/*import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.Vector;
+import java.util.Vector;*/
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
+//import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
 
-import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
+/*import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
 import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdateExcepcion;
 import pe.gob.susalud.jr.transaccion.susalud.service.RegafiUpdate997Service;
-import pe.gob.susalud.jr.transaccion.susalud.service.imp.RegafiUpdate997ServiceImpl;
+import pe.gob.susalud.jr.transaccion.susalud.service.imp.RegafiUpdate997ServiceImpl;*/
 
 public class AfiliacionUtil {
 
@@ -36,7 +36,7 @@ public class AfiliacionUtil {
     static protected HashMap<String, String> mapErrorDescripcion;
     static protected HashMap<String, String> mapErrorCampo;
 
-    public static String readableFileSize(long size) {
+    /*public static String readableFileSize(long size) {
 
         String fileSize = "";
         try {
@@ -256,5 +256,5 @@ public class AfiliacionUtil {
 
         return new SimpleDateFormat(formatoFecha, Locale.US).format(date);
 
-    }
+    }*/
 }

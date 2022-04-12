@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TreeMap;
-
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -18,15 +17,17 @@ import org.slf4j.LoggerFactory;
 public class FTPSDownload {
 
     static Logger logger = LoggerFactory.getLogger(FTPSDownload.class);
+    
+    
 
-    public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, String tipoRimac) throws IOException, Exception {
+    /*public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, String tipoRimac) throws IOException, Exception {
 
         TreeMap<String, String> mapArchivosDescargados = new TreeMap<String, String>();
         FTPSClient ftpsClient = null;
 
         try {
-            Properties prop = AfiliacionUtil.loadFileProperties(filePropertiesName);
-
+            //Properties prop = AfiliacionUtil.loadFileProperties(filePropertiesName);
+            Properties prop = null;
             String server = prop.getProperty("FTP.SUSALUD.SERVER").trim();
             int port = Integer.parseInt(prop.getProperty("FTP.SUSALUD.PORT").trim());
 
@@ -100,5 +101,5 @@ public class FTPSDownload {
         }
 
         return bFueDescargado;
-    }
+    }*/
 }
