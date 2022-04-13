@@ -59,7 +59,7 @@ public class AfiliadoRepository {
             while (rs.next()) {
                 afiliadoEnvio = new AfiliadoEnvio();
                 In271RegafiUpdate in271RegafiUpdate = new In271RegafiUpdate();
-				
+
 				if(rs.getString("IDETRAMA")!=null){afiliadoEnvio.setIdTrama(rs.getString("IDETRAMA"));}else{afiliadoEnvio.setIdTrama("");}
 				if(rs.getString("NOMTRANS")!=null){in271RegafiUpdate.setNoTransaccion(rs.getString("NOMTRANS"));}else{in271RegafiUpdate.setNoTransaccion("");}
 				if(rs.getString("IAFASEMISORTRANS")!=null){in271RegafiUpdate.setIdRemitente(rs.getString("IAFASEMISORTRANS"));}else{in271RegafiUpdate.setIdRemitente("");}
@@ -71,9 +71,9 @@ public class AfiliadoRepository {
 				if(rs.getString("CODFINALTRANS")!=null){in271RegafiUpdate.setTiFinalidad(rs.getString("CODFINALTRANS"));}else{in271RegafiUpdate.setTiFinalidad("");}
 				if(rs.getString("TIPCALIFICADORTRANS")!=null){in271RegafiUpdate.setCaRemitente(rs.getString("TIPCALIFICADORTRANS"));}else{in271RegafiUpdate.setCaRemitente("");}
 				if(rs.getString("TIPOPERACIONTRANS")!=null){in271RegafiUpdate.setTiOperacion(rs.getString("TIPOPERACIONTRANS"));}else{in271RegafiUpdate.setTiOperacion("");}
-				
-				//Registro de AFiliado
-				In271RegafiUpdateAfiliado afiliado = new In271RegafiUpdateAfiliado();
+
+                //Registro de AFiliado
+                In271RegafiUpdateAfiliado afiliado = new In271RegafiUpdateAfiliado();
 				if(rs.getString("APPATERNOAFILIADO")!=null){afiliado.setApPaternoAfiliado(rs.getString("APPATERNOAFILIADO"));}else{afiliado.setApPaternoAfiliado("");}
 				if(rs.getString("NOAFILIADO1")!=null){afiliado.setNoAfiliado1(rs.getString("NOAFILIADO1"));}else{afiliado.setNoAfiliado1("");}
 				if(rs.getString("NOAFILIADO2")!=null){afiliado.setNoAfiliado2(rs.getString("NOAFILIADO2"));}else{afiliado.setNoAfiliado2("");}
@@ -98,9 +98,9 @@ public class AfiliadoRepository {
 				if(rs.getString("TIVINCULOTUTOR")!=null){afiliado.setTiVinculoTutor(rs.getString("TIVINCULOTUTOR"));}else{afiliado.setTiVinculoTutor("");}
 				if(rs.getString("FEVALIDACIONRENIEC")!=null){afiliado.setFeValidacionReniec(rs.getString("FEVALIDACIONRENIEC"));}else{afiliado.setFeValidacionReniec("");}
 				if(rs.getString("COPAISEMISORDOCTUTOR")!=null){afiliado.setCoPaisEmisorDocTutor(rs.getString("COPAISEMISORDOCTUTOR"));}else{afiliado.setCoPaisEmisorDocTutor("");}
-				
-				//Registro de Afiliacion
-				In271RegafiUpdateAfiliacion afiliacion = new In271RegafiUpdateAfiliacion();
+
+                //Registro de Afiliacion
+                In271RegafiUpdateAfiliacion afiliacion = new In271RegafiUpdateAfiliacion();
 				if(rs.getString("TIDOCTITULAR")!=null){afiliacion.setTiDocTitular(rs.getString("TIDOCTITULAR"));}else{afiliacion.setTiDocTitular("");}
 				if(rs.getString("NUDOCTITULAR")!=null){afiliacion.setNuDocTitular(rs.getString("NUDOCTITULAR"));}else{afiliacion.setNuDocTitular("");}
 				if(rs.getString("FENACIMIENTOTITULAR")!=null){afiliacion.setFeNacimientoTitular(rs.getString("FENACIMIENTOTITULAR"));}else{afiliacion.setFeNacimientoTitular("");}
@@ -181,9 +181,9 @@ public class AfiliadoRepository {
 					if(rs.getString("CODFINALTRANS")!=null){in271RegafiUpdate.setTiFinalidad(rs.getString("CODFINALTRANS"));}else{in271RegafiUpdate.setTiFinalidad("");}
 					if(rs.getString("TIPCALIFICADORTRANS")!=null){in271RegafiUpdate.setCaRemitente(rs.getString("TIPCALIFICADORTRANS"));}else{in271RegafiUpdate.setCaRemitente("");}
 					if(rs.getString("TIPOPERACIONTRANS")!=null){in271RegafiUpdate.setTiOperacion(rs.getString("TIPOPERACIONTRANS"));}else{in271RegafiUpdate.setTiOperacion("");}
-					
-					//Registro de AFiliado
-					In271RegafiUpdateAfiliado afiliado = new In271RegafiUpdateAfiliado();
+
+                //Registro de AFiliado
+                In271RegafiUpdateAfiliado afiliado = new In271RegafiUpdateAfiliado();
 					if(rs.getString("APPATERNOAFILIADO")!=null){afiliado.setApPaternoAfiliado(rs.getString("APPATERNOAFILIADO"));}else{afiliado.setApPaternoAfiliado("");}
 					if(rs.getString("NOAFILIADO1")!=null){afiliado.setNoAfiliado1(rs.getString("NOAFILIADO1"));}else{afiliado.setNoAfiliado1("");}
 					if(rs.getString("NOAFILIADO2")!=null){afiliado.setNoAfiliado2(rs.getString("NOAFILIADO2"));}else{afiliado.setNoAfiliado2("");}
@@ -208,9 +208,9 @@ public class AfiliadoRepository {
 					if(rs.getString("TIVINCULOTUTOR")!=null){afiliado.setTiVinculoTutor(rs.getString("TIVINCULOTUTOR"));}else{afiliado.setTiVinculoTutor("");}
 					if(rs.getString("FEVALIDACIONRENIEC")!=null){afiliado.setFeValidacionReniec(rs.getString("FEVALIDACIONRENIEC"));}else{afiliado.setFeValidacionReniec("");}
 					if(rs.getString("COPAISEMISORDOCTUTOR")!=null){afiliado.setCoPaisEmisorDocTutor(rs.getString("COPAISEMISORDOCTUTOR"));}else{afiliado.setCoPaisEmisorDocTutor("");}
-					
-					//Registro de Afiliacion
-					In271RegafiUpdateAfiliacion afiliacion = new In271RegafiUpdateAfiliacion();
+
+                //Registro de Afiliacion
+                In271RegafiUpdateAfiliacion afiliacion = new In271RegafiUpdateAfiliacion();
 					if(rs.getString("TIDOCTITULAR")!=null){afiliacion.setTiDocTitular(rs.getString("TIDOCTITULAR"));}else{afiliacion.setTiDocTitular("");}
 					if(rs.getString("NUDOCTITULAR")!=null){afiliacion.setNuDocTitular(rs.getString("NUDOCTITULAR"));}else{afiliacion.setNuDocTitular("");}
 					if(rs.getString("FENACIMIENTOTITULAR")!=null){afiliacion.setFeNacimientoTitular(rs.getString("FENACIMIENTOTITULAR"));}else{afiliacion.setFeNacimientoTitular("");}
@@ -267,23 +267,64 @@ public class AfiliadoRepository {
     }
 
     public boolean actualizarTramaAfiliado(String filePropertiesName, String idTrama, String estadoAfiliado) throws SQLException, Exception {
-        return false;
+        boolean estado = false;
+        try {
+
+        } catch (SQLException ex) {
+            LOG.error("SQLException: ", ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: ", ex);
+            throw ex;
+        }
     }
 
     public List<AfiliadoRespuesta> obtenerAfiliadosSuSalud(String filePropertiesName, String estadoTrama) throws SQLException, Exception {
-        return null;
+        try {
+
+        } catch (SQLException ex) {
+            LOG.error("SQLException: ", ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: ", ex);
+            throw ex;
+        }
     }
 
     public boolean insertarSuSaludRespuesta(String filePropertiesName, String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId) throws SQLException, Exception {
-        return false;
+        try {
+
+        } catch (SQLException ex) {
+            LOG.error("SQLException: ", ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: ", ex);
+            throw ex;
+        }
     }
 
     public boolean actualizarIdMessage(String filePropertiesName, String idTrama, byte[] idmessage) throws SQLException, Exception {
-        return false;
+        try {
+
+        } catch (SQLException ex) {
+            LOG.error("SQLException: ", ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: ", ex);
+            throw ex;
+        }
     }
 
     public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String filePropertiesName, String estadoAfiliado) throws SQLException, Exception {
-        return null;
+        try {
+
+        } catch (SQLException ex) {
+            LOG.error("SQLException: ", ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: ", ex);
+            throw ex;
+        }
     }
 
 }

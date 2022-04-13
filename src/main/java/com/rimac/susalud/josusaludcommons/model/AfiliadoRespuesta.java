@@ -18,6 +18,7 @@ public class AfiliadoRespuesta {
 	private String indicadorCodigo;
 	private String codigoPaisAfiliado;
 	private String pkAfiliado;
+        
 	public String getIdTrama() {
 		return idTrama;
 	}
