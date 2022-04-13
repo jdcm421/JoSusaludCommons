@@ -2,8 +2,6 @@ package com.rimac.susalud.josusaludcommons.model;
 
 import java.util.Vector;
 
-import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
-
 public class Trama997Bean {
 	
 	private String feTransaccion;

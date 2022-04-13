@@ -15,6 +15,7 @@ public class DatosMQ {
 	private String tWaitinterval;
 	private String senderActive;
 	private String receiverActive;
+	
 	public String getQueueManager() {
 		return queueManager;
 	}

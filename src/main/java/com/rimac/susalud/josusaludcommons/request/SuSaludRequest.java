@@ -1,14 +1,24 @@
 package com.rimac.susalud.josusaludcommons.request;
 
-import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
 
 public class SuSaludRequest extends AfiliadoRequest {
 
+	private String tramaestado;
     private String indcargainicial;
     private In997RegafiUpdate afiliadoRpta;
     private byte[] msgId;
 
-    public String getIndcargainicial() {
+    
+    public String getTramaestado() {
+		return tramaestado;
+	}
+
+	public void setTramaestado(String tramaestado) {
+		this.tramaestado = tramaestado;
+	}
+
+	public String getIndcargainicial() {
         return indcargainicial;
     }
 
