@@ -1,6 +1,8 @@
 package com.rimac.susalud.josusaludcommons.util;
 
-/*import java.io.BufferedReader;
+import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,25 +12,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;*/
+import java.util.Date;
 import java.util.HashMap;
-/*import java.util.Iterator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.Vector;*/
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
-
-/*import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdate;
-import pe.gob.susalud.jr.transaccion.susalud.bean.In997RegafiUpdateExcepcion;
-import pe.gob.susalud.jr.transaccion.susalud.service.RegafiUpdate997Service;
-import pe.gob.susalud.jr.transaccion.susalud.service.imp.RegafiUpdate997ServiceImpl;*/
 
 public class AfiliacionUtil {
 
@@ -36,7 +32,7 @@ public class AfiliacionUtil {
     static protected HashMap<String, String> mapErrorDescripcion;
     static protected HashMap<String, String> mapErrorCampo;
 
-    /*public static String readableFileSize(long size) {
+    public static String readableFileSize(long size) {
 
         String fileSize = "";
         try {
@@ -94,111 +90,110 @@ public class AfiliacionUtil {
         }
     }
 
-    public static Trama997Bean procesarTrama997(String trama, String id) throws Exception {
-        Trama997Bean bean = null;
-        try {
-            if (mapErrorCampo == null) {
-                mapErrorCampo = new HashMap<String, String>();
-                leerArchivoCSV(Constan.ERROR_CAMPO_CSV, mapErrorCampo);
-            }
-            if (mapErrorDescripcion == null) {
-                mapErrorDescripcion = new HashMap<String, String>();
-                leerArchivoCSV(Constan.ERROR_DESCRIPCION_CSV, mapErrorDescripcion);
-            }
-            String tramax12 = extraerRespuestaSuSalud(trama, Constan.TAG997);
-            RegafiUpdate997Service salida = new RegafiUpdate997ServiceImpl();
-            In997RegafiUpdate bo = salida.x12NToBean(tramax12);
-            bo.setFlag(true);
-            Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
-            List<In997RegafiUpdateExcepcion> excepciones = bo.getDetallesExcepcion();
-
-            for (In997RegafiUpdateExcepcion ex : excepciones) {
-                Vector<String> fila = new Vector<String>();
-                String coCampoErr = ex.getCoCampoErr();
-                fila.add(coCampoErr);
-                fila.add(mapErrorCampo.get(coCampoErr));
-                fila.add(String.valueOf(ex.isFlagExcepcion())); //flag
-                String coDescripError = ex.getInCoErrorEncontrado();
-                fila.add(coDescripError);
-                fila.add(mapErrorDescripcion.get(coDescripError));
-                fila.add(ex.getPkAfiliado());
-                fila.add(ex.getPkAfiliadopkAfiliacion());
-                dataVector.add(fila);
-            }
-
-            bean = new Trama997Bean();
-            bean.setFeTransaccion(bo.getFeTransaccion());
-            bean.setHoTransaccion(bo.getHoTransaccion());
-            bean.setIdCorrelativo(bo.getIdCorrelativo());
-            bean.setIdReceptor(bo.getIdReceptor());
-            bean.setIdRemitente(bo.getIdRemitente());
-            bean.setIdTransaccion(bo.getIdTransaccion());
-            bean.setNoTransaccion(bean.getNoTransaccion());
-
-            //bean.setNuControl(bo.getNuControl());
-            //bean.setNuControlST(bean.getNuControlST());
-            bean.setNuControlST(trama);
-            bean.setNuControl(id);//msgid
-
-            bean.setExcepciones(dataVector);
-            bean.setDato(bo);
-        } catch (Exception e) {
-            throw e;
-        } finally {
-
-        }
-
-        return bean;
-    }
-
-    public static String CreateXML(String X12N) {
-
-        String xml = "<sus:Online271RegafiUpdateRequest xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd ../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">"
-                + "<txNombre>271_REGAFI_UPDATE</txNombre>"
-                + "<txPeticion>" + X12N + "</txPeticion></sus:Online271RegafiUpdateRequest>";
-
-        return xml.trim();
-    }
-
-    public static Properties loadFileProperties(String filePropertiesName) throws Exception {
-
-        Properties properties = null;
-        FileInputStream Fileinput = null;
-        try {
-            Fileinput = new FileInputStream(filePropertiesName);
-            if (Fileinput != null) {
-                properties = new Properties();
-                properties.load(Fileinput);
-            }
-        } catch (Exception e) {
-            throw e;
-        } finally {
-
-        }
-
-        return properties;
-    }
-
-    public static String evaluarRespuestaExcepciones(In997RegafiUpdate in997RegafiUpdate) {
-
-        String tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_RECIBIDO;
-
-        if (in997RegafiUpdate.getExcProceso() != null && !in997RegafiUpdate.getExcProceso().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
-            tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
-        } else {
-            if (in997RegafiUpdate.getDetallesExcepcion() != null && in997RegafiUpdate.getDetallesExcepcion().size() > 0) {
-                for (In997RegafiUpdateExcepcion detalleExcepcion : in997RegafiUpdate.getDetallesExcepcion()) {
-                    if (detalleExcepcion.getExcBD() != null && !detalleExcepcion.getExcBD().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
-                        tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return tramaEstadoRespuesta;
-    }
-
+//    public static Trama997Bean procesarTrama997(String trama, String id) throws Exception {
+//        Trama997Bean bean = null;
+//        try {
+//            if (mapErrorCampo == null) {
+//                mapErrorCampo = new HashMap<String, String>();
+//                leerArchivoCSV(Constan.ERROR_CAMPO_CSV, mapErrorCampo);
+//            }
+//            if (mapErrorDescripcion == null) {
+//                mapErrorDescripcion = new HashMap<String, String>();
+//                leerArchivoCSV(Constan.ERROR_DESCRIPCION_CSV, mapErrorDescripcion);
+//            }
+//            String tramax12 = extraerRespuestaSuSalud(trama, Constan.TAG997);
+//            RegafiUpdate997Service salida = new RegafiUpdate997ServiceImpl();
+//            In997RegafiUpdate bo = salida.x12NToBean(tramax12);
+//            bo.setFlag(true);
+//            Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
+//            List<In997RegafiUpdateExcepcion> excepciones = bo.getDetallesExcepcion();
+//
+//            for (In997RegafiUpdateExcepcion ex : excepciones) {
+//                Vector<String> fila = new Vector<String>();
+//                String coCampoErr = ex.getCoCampoErr();
+//                fila.add(coCampoErr);
+//                fila.add(mapErrorCampo.get(coCampoErr));
+//                fila.add(String.valueOf(ex.isFlagExcepcion())); //flag
+//                String coDescripError = ex.getInCoErrorEncontrado();
+//                fila.add(coDescripError);
+//                fila.add(mapErrorDescripcion.get(coDescripError));
+//                fila.add(ex.getPkAfiliado());
+//                fila.add(ex.getPkAfiliadopkAfiliacion());
+//                dataVector.add(fila);
+//            }
+//
+//            bean = new Trama997Bean();
+//            bean.setFeTransaccion(bo.getFeTransaccion());
+//            bean.setHoTransaccion(bo.getHoTransaccion());
+//            bean.setIdCorrelativo(bo.getIdCorrelativo());
+//            bean.setIdReceptor(bo.getIdReceptor());
+//            bean.setIdRemitente(bo.getIdRemitente());
+//            bean.setIdTransaccion(bo.getIdTransaccion());
+//            bean.setNoTransaccion(bean.getNoTransaccion());
+//
+//            bean.setNuControl(bo.getNuControl());
+//            bean.setNuControlST(bean.getNuControlST());
+//            bean.setNuControlST(trama);
+//            bean.setNuControl(id);//msgid
+//
+//            bean.setExcepciones(dataVector);
+//            bean.setDato(bo);
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//
+//        }
+//
+//        return bean;
+//    }
+//
+//    public static String CreateXML(String X12N) {
+//
+//        String xml = "<sus:Online271RegafiUpdateRequest xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd ../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">"
+//                + "<txNombre>271_REGAFI_UPDATE</txNombre>"
+//                + "<txPeticion>" + X12N + "</txPeticion></sus:Online271RegafiUpdateRequest>";
+//
+//        return xml.trim();
+//    }
+//
+//    public static Properties loadFileProperties(String filePropertiesName) throws Exception {
+//
+//        Properties properties = null;
+//        FileInputStream Fileinput = null;
+//        try {
+//            Fileinput = new FileInputStream(filePropertiesName);
+//            if (Fileinput != null) {
+//                properties = new Properties();
+//                properties.load(Fileinput);
+//            }
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//
+//        }
+//
+//        return properties;
+//    }
+//
+//    public static String evaluarRespuestaExcepciones(In997RegafiUpdate in997RegafiUpdate) {
+//
+//        String tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_RECIBIDO;
+//
+//        if (in997RegafiUpdate.getExcProceso() != null && !in997RegafiUpdate.getExcProceso().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
+//            tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
+//        } else {
+//            if (in997RegafiUpdate.getDetallesExcepcion() != null && in997RegafiUpdate.getDetallesExcepcion().size() > 0) {
+//                for (In997RegafiUpdateExcepcion detalleExcepcion : in997RegafiUpdate.getDetallesExcepcion()) {
+//                    if (detalleExcepcion.getExcBD() != null && !detalleExcepcion.getExcBD().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
+//                        tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return tramaEstadoRespuesta;
+//    }
     public static String descripcionErrorServicioSuSalud(String codigoErrorSuSalud) {
 
         String descripcionError = "";
@@ -256,5 +251,5 @@ public class AfiliacionUtil {
 
         return new SimpleDateFormat(formatoFecha, Locale.US).format(date);
 
-    }*/
+    }
 }

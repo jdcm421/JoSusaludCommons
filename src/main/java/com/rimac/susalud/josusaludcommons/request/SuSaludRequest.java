@@ -4,21 +4,20 @@ import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
 
 public class SuSaludRequest extends AfiliadoRequest {
 
-	private String tramaestado;
+    private String tramaestado;
     private String indcargainicial;
     private In997RegafiUpdate afiliadoRpta;
     private byte[] msgId;
 
-    
     public String getTramaestado() {
-		return tramaestado;
-	}
+        return tramaestado;
+    }
 
-	public void setTramaestado(String tramaestado) {
-		this.tramaestado = tramaestado;
-	}
+    public void setTramaestado(String tramaestado) {
+        this.tramaestado = tramaestado;
+    }
 
-	public String getIndcargainicial() {
+    public String getIndcargainicial() {
         return indcargainicial;
     }
 

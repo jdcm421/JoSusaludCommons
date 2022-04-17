@@ -12,7 +12,7 @@ public class In271RegafiUpdate {
     private String tiFinalidad;
     private String caRemitente;
     private String tiOperacion;
-    
+
     private Object addDetalle;
 
     public String getNoTransaccion() {
@@ -103,5 +103,4 @@ public class In271RegafiUpdate {
         this.addDetalle = addDetalle;
     }
 
-    
 }

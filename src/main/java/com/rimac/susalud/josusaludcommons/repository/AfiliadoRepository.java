@@ -5,6 +5,8 @@ import com.rimac.susalud.josusaludcommons.model.AfiliadoEnvio;
 import com.rimac.susalud.josusaludcommons.model.AfiliadoRespuesta;
 import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdate;
 import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdateAfiliado;
+import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.util.Constan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class AfiliadoRepository {
     @Autowired
     EntityManager entityManager;
 
-    public List<AfiliadoEnvio> obtenerAfiliadosEnvio(String filePropertiesName, String estadoAfiliado) throws SQLException, Exception {
+    public List<AfiliadoEnvio> obtenerAfiliadosEnvio(String estadoAfiliado) throws SQLException, Exception {
         List<AfiliadoEnvio> lstIn217ResgistrosAFiliadosEnvio = new ArrayList<AfiliadoEnvio>();
         AfiliadoEnvio afiliadoEnvio = null;
         try {
@@ -147,7 +149,7 @@ public class AfiliadoRepository {
                 lstIn217ResgistrosAFiliadosEnvio.add(afiliadoEnvio);
             }
         } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
+            LOG.error("SQLException: " + prodAfiliadoEnvio, ex);
             throw ex;
         } catch (Exception ex) {
             LOG.error(estadoAfiliado, ex);
@@ -156,11 +158,11 @@ public class AfiliadoRepository {
         return lstIn217ResgistrosAFiliadosEnvio;
     }
 
-    public List<AfiliadoEnvio> obtenerAfiliadosCargaInicial(String filePropertiesName, String estadoAfiliado, String indicadorCargaInicial) throws SQLException, Exception {
+    public List<AfiliadoEnvio> obtenerAfiliadosCargaInicial( String estadoAfiliado, String indicadorCargaInicial) throws SQLException, Exception {
         List<AfiliadoEnvio> lstIn217ResgistrosAFiliadosEnvio = new ArrayList<AfiliadoEnvio>();
         AfiliadoEnvio afiliadoEnvio = null;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadoEnvio)
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadoInicial)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .setParameter(1, estadoAfiliado);
@@ -257,7 +259,7 @@ public class AfiliadoRepository {
                 lstIn217ResgistrosAFiliadosEnvio.add(afiliadoEnvio);
             }
         } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
+            LOG.error("SQLException: " + prodAfiliadoEnvio, ex);
             throw ex;
         } catch (Exception ex) {
             LOG.error("Exception: ", ex);
@@ -266,10 +268,21 @@ public class AfiliadoRepository {
         return lstIn217ResgistrosAFiliadosEnvio;
     }
 
-    public boolean actualizarTramaAfiliado(String filePropertiesName, String idTrama, String estadoAfiliado) throws SQLException, Exception {
+    public boolean actualizarTramaAfiliado( String idTrama, String estadoAfiliado) throws SQLException, Exception {
         boolean estado = false;
         try {
-
+        	StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodTramaAfiliado)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
+                    .setParameter(1, idTrama)
+                    .setParameter(2, estadoAfiliado);
+            query.execute();
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
+            while (rs.next()) {
+            	String strMensaje = rs.getString(3);
+            	if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) estado =  true;
+            }
         } catch (SQLException ex) {
             LOG.error("SQLException: ", ex);
             throw ex;
@@ -277,9 +290,54 @@ public class AfiliadoRepository {
             LOG.error("Exception: ", ex);
             throw ex;
         }
+        return estado;
     }
 
-    public List<AfiliadoRespuesta> obtenerAfiliadosSuSalud(String filePropertiesName, String estadoTrama) throws SQLException, Exception {
+    public List<AfiliadoRespuesta> obtenerAfiliadosSuSalud(String estadoTrama) throws SQLException, Exception {
+        List<AfiliadoRespuesta> lstAFiliadosRptaSuSalud = new ArrayList<>();
+        AfiliadoRespuesta afiliadoSuSalud = null;
+        try {
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadosSuSalud)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
+                    .setParameter(1, estadoTrama);
+            query.execute();
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(2);
+            while (rs.next()) {
+                afiliadoSuSalud = new AfiliadoRespuesta();
+                afiliadoSuSalud.setIdTrama(rs.getString("idetrama"));
+                afiliadoSuSalud.setTramaEstado(rs.getString("tramaestado"));
+                afiliadoSuSalud.setFechaCreacion(rs.getString("feccreacion"));
+                afiliadoSuSalud.setUsuarioCreacion(rs.getString("usucreacion"));
+                afiliadoSuSalud.setNombreTransaccion(rs.getString("nomtrans"));
+                afiliadoSuSalud.setIdRemitente(rs.getString("ideremite"));
+                afiliadoSuSalud.setIdReceptor(rs.getString("idereceptor"));
+                afiliadoSuSalud.setFecha(rs.getString("fecha"));
+                afiliadoSuSalud.setHora(rs.getString("hora"));
+                afiliadoSuSalud.setCorrelativoTransaccion(rs.getString("corretrans"));
+                afiliadoSuSalud.setIdTransaccion(rs.getString("idetrans"));
+                afiliadoSuSalud.setException(rs.getString("excepcion"));
+                afiliadoSuSalud.setExceptionBD(rs.getString("excepbd"));
+                afiliadoSuSalud.setCodigoCampoError(rs.getString("codcamperr"));
+                afiliadoSuSalud.setIndicadorCodigo(rs.getString("indcodigo"));
+                afiliadoSuSalud.setCodigoPaisAfiliado(rs.getString("paisafil"));
+                afiliadoSuSalud.setPkAfiliado(rs.getString("pkafiliado"));
+
+                lstAFiliadosRptaSuSalud.add(afiliadoSuSalud);
+
+                afiliadoSuSalud = null;
+            }
+        } catch (SQLException ex) {
+            LOG.error("SQLException: " +prodAfiliadosSuSalud , ex);
+            throw ex;
+        } catch (Exception ex) {
+            LOG.error("Exception: obtenerAfiliadosSuSalud", ex);
+            throw ex;
+        }
+        return lstAFiliadosRptaSuSalud;
+    }
+
+    public boolean insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId) throws SQLException, Exception {
         try {
 
         } catch (SQLException ex) {
@@ -291,7 +349,7 @@ public class AfiliadoRepository {
         }
     }
 
-    public boolean insertarSuSaludRespuesta(String filePropertiesName, String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId) throws SQLException, Exception {
+    public boolean actualizarIdMessage(String idTrama, byte[] idmessage) throws SQLException, Exception {
         try {
 
         } catch (SQLException ex) {
@@ -303,19 +361,7 @@ public class AfiliadoRepository {
         }
     }
 
-    public boolean actualizarIdMessage(String filePropertiesName, String idTrama, byte[] idmessage) throws SQLException, Exception {
-        try {
-
-        } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
-            throw ex;
-        } catch (Exception ex) {
-            LOG.error("Exception: ", ex);
-            throw ex;
-        }
-    }
-
-    public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String filePropertiesName, String estadoAfiliado) throws SQLException, Exception {
+    public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String estadoAfiliado) throws SQLException, Exception {
         try {
 
         } catch (SQLException ex) {

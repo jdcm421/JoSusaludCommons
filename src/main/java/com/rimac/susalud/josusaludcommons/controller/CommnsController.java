@@ -3,7 +3,7 @@ package com.rimac.susalud.josusaludcommons.controller;
 import com.rimac.susalud.josusaludcommons.exception.ExceptionResponse;
 import com.rimac.susalud.josusaludcommons.request.MessageRequest;
 import com.rimac.susalud.josusaludcommons.request.SuSaludRequest;
-import com.rimac.susalud.josusaludcommons.response.Response;
+import com.rimac.susalud.josusaludcommons.response.ResponseDTO;
 import com.rimac.susalud.josusaludcommons.response.ResponseAfiliadosSuSalud;
 import com.rimac.susalud.josusaludcommons.response.ResponseObtenerAfiliados;
 import com.rimac.susalud.josusaludcommons.service.AfiliadoService;
@@ -32,78 +32,78 @@ public class CommnsController {
     @ApiOperation(value = "Se obtiene el afiliado de envio", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-envio", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseAfiliadosSuSalud> obternerAfliadosEnvio(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado) {
-        return ResponseEntity.ok().body(service.obtenerAfiliadosEnvio(filePropertiesName, estadoAfiliado));
+    public ResponseEntity<ResponseObtenerAfiliados> obternerAfliadosEnvio(@RequestParam String estadoAfiliado) {
+        return ResponseEntity.ok().body(service.obtenerAfiliadosEnvio( estadoAfiliado));
     }
 
     @ApiOperation(value = "Obtiene el afiliado para carga inicial", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-cargainicial", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseAfiliadosSuSalud> obternerAfiliadoCargaInicial(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado, @RequestParam String indicadorCargaInicial) {
-        return ResponseEntity.ok().body(service.obtenerAfiliadosCargaInicial(filePropertiesName, estadoAfiliado, indicadorCargaInicial));
+    public ResponseEntity<ResponseObtenerAfiliados> obternerAfiliadoCargaInicial( @RequestParam String estadoAfiliado, @RequestParam String indicadorCargaInicial) {
+        return ResponseEntity.ok().body(service.obtenerAfiliadosCargaInicial( estadoAfiliado, indicadorCargaInicial));
     }
 
     @ApiOperation(value = "Obtener afiliados de SuSalud", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/afiliado-susalud", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseObtenerAfiliados> obternerAfliadoSuSalud(@RequestParam String filePropertiesName, @RequestParam String estadoTrama) {
-        return ResponseEntity.ok().body(service.obtenerAfiliadosSuSalud(filePropertiesName, estadoTrama));
+    public ResponseEntity<ResponseAfiliadosSuSalud> obternerAfliadoSuSalud( @RequestParam String estadoTrama) {
+        return ResponseEntity.ok().body(service.obtenerAfiliadosSuSalud( estadoTrama));
     }
 
     @ApiOperation(value = "Obtener el id de mensaje de envio", tags = {"Controlador Commons"})
     @GetMapping(value = "/obtener/message-envio", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> obternerIdMessageEnvio(@RequestParam String filePropertiesName, @RequestParam String estadoAfiliado) {
-        return ResponseEntity.ok().body(service.obtenerIdmessageEnvio(filePropertiesName, estadoAfiliado));
+    public ResponseEntity<ResponseDTO> obternerIdMessageEnvio( @RequestParam String estadoAfiliado) {
+        return ResponseEntity.ok().body(service.obtenerIdmessageEnvio( estadoAfiliado));
     }
 
     @ApiOperation(value = "Insertar respuesta susalud", tags = {"Controlador Commons"})
     @PostMapping(value = "/insertar/susalud", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> insertarSuSaludRespuesta(@RequestBody SuSaludRequest request) {
-        return ResponseEntity.ok().body(service.insertarSuSaludRespuesta(request.getFilePropertiesName(), request.getTramaestado(), request.getIndcargainicial(), request.getAfiliadoRpta(), request.getMsgId()));
+    public ResponseEntity<ResponseDTO> insertarSuSaludRespuesta(@RequestBody SuSaludRequest request) {
+        return ResponseEntity.ok().body(service.insertarSuSaludRespuesta(request.getTramaestado(), request.getIndcargainicial(), request.getAfiliadoRpta(), request.getMsgId()));
     }
 
     @ApiOperation(value = "Actalizar id del Mensaje", tags = {"Controlador Commons"})
     @PutMapping(value = "/actualizar/id", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> actualizarIdMessage(@RequestBody MessageRequest request) {
-        return ResponseEntity.ok().body(service.actualizarIdMessage(request.getFilePropertiesName(), request.getIdTrama(), request.getIdmessage()));
+    public ResponseEntity<ResponseDTO> actualizarIdMessage(@RequestBody MessageRequest request) {
+        return ResponseEntity.ok().body(service.actualizarIdMessage(request.getIdTrama(), request.getIdmessage()));
     }
 
     @ApiOperation(value = "Actualizar la trama del Afiliado", tags = {"Controlador Commons"})
     @PutMapping(value = "/actualizar/afiliado", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = Response.class),
+        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<Response> actualizarTramaAfiliado(@RequestParam String filePropertiesName, @RequestParam String idTrama, @RequestParam String estadoAfiliado) {
-        return ResponseEntity.ok().body(service.actualizarTramaAfiliado(filePropertiesName, idTrama, estadoAfiliado));
+    public ResponseEntity<ResponseDTO> actualizarTramaAfiliado( @RequestParam String idTrama, @RequestParam String estadoAfiliado) {
+        return ResponseEntity.ok().body(service.actualizarTramaAfiliado( idTrama, estadoAfiliado));
     }
 
 }

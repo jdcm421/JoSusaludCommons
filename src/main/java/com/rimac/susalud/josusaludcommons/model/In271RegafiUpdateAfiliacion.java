@@ -319,7 +319,6 @@ public class In271RegafiUpdateAfiliacion {
     public void setTiActOperacion(String tiActOperacion) {
         this.tiActOperacion = tiActOperacion;
     }
-    
 
     public String getCoTiCobertura() {
         return coTiCobertura;
@@ -336,7 +335,5 @@ public class In271RegafiUpdateAfiliacion {
     public void setIdAfiliacionNombre(String idAfiliacionNombre) {
         this.idAfiliacionNombre = idAfiliacionNombre;
     }
-    
-    
 
 }

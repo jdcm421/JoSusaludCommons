@@ -1,6 +1,6 @@
 package com.rimac.susalud.josusaludcommons.util;
 
-/*import java.io.FileInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,10 +12,10 @@ import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPReply;
-import org.apache.commons.net.ftp.FTPSClient;*/
+import org.apache.commons.net.ftp.FTPSClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import com.rimac.susalud.josusaludcommons.model.FTPSBean;
+import com.rimac.susalud.josusaludcommons.model.FTPSBean;
 
 public class FTPSTransfer {
 
@@ -28,7 +28,7 @@ public class FTPSTransfer {
 
     static Logger logger = LoggerFactory.getLogger(FTPSTransfer.class);
 
-    /*@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     public void transferirArchivo(FTPSBean ftpsbean) throws NoSuchAlgorithmException {
 
         String protocol = "TLS";    // TLS

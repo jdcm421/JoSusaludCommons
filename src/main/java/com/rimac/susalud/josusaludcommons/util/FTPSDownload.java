@@ -17,10 +17,8 @@ import org.slf4j.LoggerFactory;
 public class FTPSDownload {
 
     static Logger logger = LoggerFactory.getLogger(FTPSDownload.class);
-    
-    
 
-    /*public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, String tipoRimac) throws IOException, Exception {
+    public TreeMap<String, String> descargarArchivoFTPS(String filePropertiesName, String tipoRimac) throws IOException, Exception {
 
         TreeMap<String, String> mapArchivosDescargados = new TreeMap<String, String>();
         FTPSClient ftpsClient = null;
@@ -101,5 +99,5 @@ public class FTPSDownload {
         }
 
         return bFueDescargado;
-    }*/
+    }
 }

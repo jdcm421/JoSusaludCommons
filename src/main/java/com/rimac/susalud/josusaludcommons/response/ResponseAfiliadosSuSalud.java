@@ -1,19 +1,18 @@
 package com.rimac.susalud.josusaludcommons.response;
 
-import com.rimac.susalud.josusaludcommons.model.AfiliadoEnvio;
 import java.util.List;
 
 import com.rimac.susalud.josusaludcommons.model.AfiliadoRespuesta;
 
 public class ResponseAfiliadosSuSalud extends Response {
 
-    List<AfiliadoEnvio> obtenerAfiliadosSuSalud;
+    List<AfiliadoRespuesta> obtenerAfiliadosSuSalud;
 
-    public List<AfiliadoEnvio> getObtenerAfiliadosSuSalud() {
+    public List<AfiliadoRespuesta> getObtenerAfiliadosSuSalud() {
         return obtenerAfiliadosSuSalud;
     }
 
-    public void setObtenerAfiliadosSuSalud(List<AfiliadoEnvio> obtenerAfiliadosSuSalud) {
+    public void setObtenerAfiliadosSuSalud(List<AfiliadoRespuesta> obtenerAfiliadosSuSalud) {
         this.obtenerAfiliadosSuSalud = obtenerAfiliadosSuSalud;
     }
 }
