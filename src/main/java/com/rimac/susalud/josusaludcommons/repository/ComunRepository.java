@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ComunRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComunRepository.class);
