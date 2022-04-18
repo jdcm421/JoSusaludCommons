@@ -29,18 +29,18 @@ public class ComunRepository {
         DatosMQ datosMQ = new DatosMQ();
         try {
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodObtenerValoresMQ)
-                    .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(3, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(4, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(5, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(6, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(7, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(8, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(9, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(10, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(11, Object.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(12, Object.class, ParameterMode.REF_CURSOR);
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(4, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(5, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(6, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(7, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(8, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(9, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(10, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(11, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(12, String.class, ParameterMode.OUT);
             query.execute();
 
             datosMQ.setPasswordMQ((String) query.getOutputParameterValue(1));
@@ -57,7 +57,7 @@ public class ComunRepository {
             datosMQ.setReceiverActive((String) query.getOutputParameterValue(12));
 
         } catch (Exception ex) {
-            LOG.error("Error Reository obtenerDatosMQ", ex);
+            LOG.error("Error Repository obtenerDatosMQ", ex);
             throw ex;
         }
         return datosMQ;
