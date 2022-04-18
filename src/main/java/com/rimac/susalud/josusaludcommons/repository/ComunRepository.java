@@ -28,7 +28,7 @@ public class ComunRepository {
     public DatosMQ obtenerDatosMQ() throws SQLException, Exception {
         DatosMQ datosMQ = new DatosMQ();
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodparametroValor)
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodObtenerValoresMQ)
                     .registerStoredProcedureParameter(1, Object.class, ParameterMode.REF_CURSOR)
                     .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .registerStoredProcedureParameter(3, Object.class, ParameterMode.REF_CURSOR)
