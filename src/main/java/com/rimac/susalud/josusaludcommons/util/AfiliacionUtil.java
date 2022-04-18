@@ -1,6 +1,7 @@
 package com.rimac.susalud.josusaludcommons.util;
 
 import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdateException;
 import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -147,53 +148,53 @@ public class AfiliacionUtil {
 //        return bean;
 //    }
 //
-//    public static String CreateXML(String X12N) {
-//
-//        String xml = "<sus:Online271RegafiUpdateRequest xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd ../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">"
-//                + "<txNombre>271_REGAFI_UPDATE</txNombre>"
-//                + "<txPeticion>" + X12N + "</txPeticion></sus:Online271RegafiUpdateRequest>";
-//
-//        return xml.trim();
-//    }
-//
-//    public static Properties loadFileProperties(String filePropertiesName) throws Exception {
-//
-//        Properties properties = null;
-//        FileInputStream Fileinput = null;
-//        try {
-//            Fileinput = new FileInputStream(filePropertiesName);
-//            if (Fileinput != null) {
-//                properties = new Properties();
-//                properties.load(Fileinput);
-//            }
-//        } catch (Exception e) {
-//            throw e;
-//        } finally {
-//
-//        }
-//
-//        return properties;
-//    }
-//
-//    public static String evaluarRespuestaExcepciones(In997RegafiUpdate in997RegafiUpdate) {
-//
-//        String tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_RECIBIDO;
-//
-//        if (in997RegafiUpdate.getExcProceso() != null && !in997RegafiUpdate.getExcProceso().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
-//            tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
-//        } else {
-//            if (in997RegafiUpdate.getDetallesExcepcion() != null && in997RegafiUpdate.getDetallesExcepcion().size() > 0) {
-//                for (In997RegafiUpdateExcepcion detalleExcepcion : in997RegafiUpdate.getDetallesExcepcion()) {
-//                    if (detalleExcepcion.getExcBD() != null && !detalleExcepcion.getExcBD().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
-//                        tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        return tramaEstadoRespuesta;
-//    }
+    public static String CreateXML(String X12N) {
+
+        String xml = "<sus:Online271RegafiUpdateRequest xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd ../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">"
+                + "<txNombre>271_REGAFI_UPDATE</txNombre>"
+                + "<txPeticion>" + X12N + "</txPeticion></sus:Online271RegafiUpdateRequest>";
+
+        return xml.trim();
+    }
+
+    public static Properties loadFileProperties(String filePropertiesName) throws Exception {
+
+        Properties properties = null;
+        FileInputStream Fileinput = null;
+        try {
+            Fileinput = new FileInputStream(filePropertiesName);
+            if (Fileinput != null) {
+                properties = new Properties();
+                properties.load(Fileinput);
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+
+        }
+
+        return properties;
+    }
+
+    public static String evaluarRespuestaExcepciones(In997RegafiUpdate in997RegafiUpdate) {
+
+        String tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_RECIBIDO;
+
+        if (in997RegafiUpdate.getExcProceso() != null && !in997RegafiUpdate.getExcProceso().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
+            tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
+        } else {
+            if (in997RegafiUpdate.getDetallesException() != null && in997RegafiUpdate.getDetallesException().size() > 0) {
+                for (In997RegafiUpdateException detalleExcepcion : in997RegafiUpdate.getDetallesException()) {
+                    if (detalleExcepcion.getExcBD() != null && !detalleExcepcion.getExcBD().equals(Constan.VALIDACION_SUSALUD_OK_BD)) {
+                        tramaEstadoRespuesta = Constan.TRAMA_ESTADO_RESPUESTA_OBSERVADO;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return tramaEstadoRespuesta;
+    }
     public static String descripcionErrorServicioSuSalud(String codigoErrorSuSalud) {
 
         String descripcionError = "";

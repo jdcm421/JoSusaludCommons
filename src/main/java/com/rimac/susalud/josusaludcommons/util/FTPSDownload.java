@@ -22,10 +22,9 @@ public class FTPSDownload {
 
         TreeMap<String, String> mapArchivosDescargados = new TreeMap<String, String>();
         FTPSClient ftpsClient = null;
-
         try {
-            //Properties prop = AfiliacionUtil.loadFileProperties(filePropertiesName);
-            Properties prop = null;
+            Properties prop = AfiliacionUtil.loadFileProperties(filePropertiesName);
+            
             String server = prop.getProperty("FTP.SUSALUD.SERVER").trim();
             int port = Integer.parseInt(prop.getProperty("FTP.SUSALUD.PORT").trim());
 

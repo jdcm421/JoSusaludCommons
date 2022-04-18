@@ -12,6 +12,7 @@ import com.rimac.susalud.josusaludcommons.response.ResponseDTO;
 import com.rimac.susalud.josusaludcommons.response.ResponseAfiliadosSuSalud;
 import com.rimac.susalud.josusaludcommons.response.ResponseObtenerAfiliados;
 import com.rimac.susalud.josusaludcommons.service.AfiliadoService;
+import com.rimac.susalud.josusaludcommons.util.Constan;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +35,14 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             servicios = afiliadoRepository.obtenerAfiliadosEnvio(estadoAfiliado);
             if (servicios.isEmpty()) {
                 responseObtenerAfiliados.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseObtenerAfiliados.setError("No se encontro los servicios solicitados");
+                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado);
                 responseObtenerAfiliados.setMensaje(null);
                 responseObtenerAfiliados.setAfiliados(null);
                 return responseObtenerAfiliados;
             }
 
             responseObtenerAfiliados.setCodigo(HttpStatus.OK.toString());
-            responseObtenerAfiliados.setMensaje("Se obtiene los servicios por el request " + estadoAfiliado);
+            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado);
             responseObtenerAfiliados.setError(null);
             responseObtenerAfiliados.setAfiliados(servicios);
         } catch (Exception e) {
@@ -63,14 +64,14 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             servicios = afiliadoRepository.obtenerAfiliadosCargaInicial(estadoAfiliado, indicadorCargaInicial);
             if (servicios.isEmpty()) {
                 responseObtenerAfiliados.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseObtenerAfiliados.setError("No se encontro los servicios solicitados");
+                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado + indicadorCargaInicial);
                 responseObtenerAfiliados.setMensaje(null);
                 responseObtenerAfiliados.setAfiliados(null);
                 return responseObtenerAfiliados;
             }
 
             responseObtenerAfiliados.setCodigo(HttpStatus.OK.toString());
-            responseObtenerAfiliados.setMensaje("Se obtiene los servicios por el request " + estadoAfiliado);
+            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado + " "+ indicadorCargaInicial);
             responseObtenerAfiliados.setError(null);
             responseObtenerAfiliados.setAfiliados(servicios);
         } catch (Exception e) {
@@ -92,7 +93,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             result = afiliadoRepository.actualizarTramaAfiliado(idTrama, estadoAfiliado);
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError("No se pudo guardar ejecucion");
+                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR + idTrama + " " + estadoAfiliado);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -101,7 +102,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado.put("Estado Afiliado ", estadoAfiliado);
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje("Se guardo correctamente la ejecucion");
+            responseDTO.setMensaje(Constan.PUT_SERVICE_REQUEST);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio actualizarTramaAfiliado " + resultado.toString(), e);
@@ -121,14 +122,14 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             servicios = afiliadoRepository.obtenerAfiliadosSuSalud(estadoTrama);
             if (servicios.isEmpty()) {
                 responseAfiliadosSuSalud.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseAfiliadosSuSalud.setError("No se encontro los servicios solicitados");
+                responseAfiliadosSuSalud.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoTrama);
                 responseAfiliadosSuSalud.setMensaje(null);
                 responseAfiliadosSuSalud.setObtenerAfiliadosSuSalud(null);
                 return responseAfiliadosSuSalud;
             }
 
             responseAfiliadosSuSalud.setCodigo(HttpStatus.OK.toString());
-            responseAfiliadosSuSalud.setMensaje("Se obtiene los servicios por el request " + estadoTrama);
+            responseAfiliadosSuSalud.setMensaje(Constan.GET_SERVICE_REQUEST + estadoTrama);
             responseAfiliadosSuSalud.setError(null);
             responseAfiliadosSuSalud.setObtenerAfiliadosSuSalud(servicios);
         } catch (Exception e) {
@@ -151,7 +152,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             result = afiliadoRepository.insertarSuSaludRespuesta(tramaestado, indcargainicial, afiliadoRpta, msgId);
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError("No se pudo guardar ejecucion");
+                responseDTO.setError(Constan.POST_SERVICE_REQUEST_ERROR);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -162,7 +163,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado.put("Mesagge Id", msgId);
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje("Se guardo correctamente la ejecucion");
+            responseDTO.setMensaje(Constan.POST_SERVICE_REQUEST);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio insertarSuSaludRespuesta" + resultado.toString(), e);
@@ -183,7 +184,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             result = afiliadoRepository.actualizarIdMessage(idTrama, idmessage);
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError("No se pudo guardar ejecucion");
+                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -192,7 +193,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado.put("Mesagge Id", idmessage);
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje("Se guardo correctamente la ejecucion");
+            responseDTO.setMensaje(Constan.PUT_SERVICE_REQUEST);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio actualizarIdMessage " + resultado.toString(), e);
@@ -212,13 +213,13 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado = afiliadoRepository.obtenerIdmessageEnvio(estadoAfiliado);
             if (resultado.isEmpty()) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError("No se pudo guardar ejecucion");
+                responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje("Se guardo correctamente la ejecucion");
+            responseDTO.setMensaje(Constan.GET_SERVICE_REQUEST);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio obtenerIdmessageEnvio " + estadoAfiliado, e);

@@ -106,4 +106,13 @@ public class Constan {
     public static final String TIPO_PARENTESCO_CONYUGUE = "2";
     public static final String TIPO_PARENTESCO_HIJO_NO_INCAPACITADO = "5";
     public static final String TIPO_PARENTESCO_HIJO_INCAPACITADO = "6";
+    
+    //MENSAJE SERVICE
+    public static final String SERVICE_REQUEST = "No se encontro los servicios solicitados";
+    public static final String GET_SERVICE_REQUEST = "Se obtiene los servicios por el request ";
+    public static final String GET_SERVICE_REQUEST_ERROR = "No se obtiene los servicios por el request ";
+    public static final String PUT_SERVICE_REQUEST = "Se guardo correctamente la ejecucion";
+    public static final String PUT_SERVICE_REQUEST_ERROR = "No se pudo actualizar ejecucion";
+    public static final String POST_SERVICE_REQUEST = "Se guardo correctamente la ejecucion";
+    public static final String POST_SERVICE_REQUEST_ERROR = "No se pudo guardar";
 }

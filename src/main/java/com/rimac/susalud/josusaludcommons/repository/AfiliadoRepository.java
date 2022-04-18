@@ -338,8 +338,58 @@ public class AfiliadoRepository {
     }
 
     public boolean insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId) throws SQLException, Exception {
+        boolean estado = false;
         try {
-
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodsuSaludRPTA)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(4, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(5, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(6, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(7, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(8, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(9, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(10, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(11, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(12, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(13, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(14, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(15, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(16, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(18, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(19, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(20, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(21, Byte.class, ParameterMode.OUT)
+                    .setParameter(1, tramaestado)
+                    .setParameter(2, afiliadoRpta.getNoTransaccion())
+                    .setParameter(3, afiliadoRpta.getIdRemitente())
+                    .setParameter(4, afiliadoRpta.getIdReceptor())
+                    .setParameter(5, afiliadoRpta.getFeTransaccion())
+                    .setParameter(6, afiliadoRpta.getHoTransaccion())
+                    .setParameter(7, afiliadoRpta.getIdCorrelativo())
+                    .setParameter(8, afiliadoRpta.getIdTransaccion())
+                    .setParameter(9, afiliadoRpta.getExcProceso())
+                    .setParameter(10, afiliadoRpta.getDetallesException().iterator().next().getExcBD())
+                    .setParameter(11, afiliadoRpta.getDetallesException().iterator().next().getCoCampoErr())
+                    .setParameter(12, afiliadoRpta.getDetallesException().iterator().next().getInCoErrorEncontrado())
+                    .setParameter(13, afiliadoRpta.getDetallesException().iterator().next().getPkAfiliado())
+                    .setParameter(14, afiliadoRpta.getDetallesException().iterator().next().getPkAfiliadopkAfiliacion())
+                    .setParameter(15, afiliadoRpta.isFlag() ? Constan.ESTADO_BOOLEAN_TRUE : Constan.ESTADO_BOOLEAN_FALSE)
+                    .setParameter(16, afiliadoRpta.getNuControl())
+                    .setParameter(17, afiliadoRpta.getNuControlST())
+                    .setParameter(18, afiliadoRpta.getDetallesException().iterator().next().isFlagExcepcion() ? Constan.ESTADO_BOOLEAN_TRUE : Constan.ESTADO_BOOLEAN_FALSE)
+                    .setParameter(19, indcargainicial)
+                    .setParameter(20, msgId);
+            query.execute();
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(21);
+            while (rs.next()) {
+                String strMensaje = rs.getString(3);
+                if (strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) {
+                    estado = true;
+                }
+            }
         } catch (SQLException ex) {
             LOG.error("SQLException: ", ex);
             throw ex;
@@ -347,30 +397,55 @@ public class AfiliadoRepository {
             LOG.error("Exception: ", ex);
             throw ex;
         }
+        return estado;
     }
 
     public boolean actualizarIdMessage(String idTrama, byte[] idmessage) throws SQLException, Exception {
+        boolean estado = false;
         try {
-
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodidMessage)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, Byte.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
+                    .setParameter(1, idTrama)
+                    .setParameter(2, idmessage);
+            query.execute();
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
+            while (rs.next()) {
+            	String strMensaje = rs.getString(3);
+            	if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) estado =  true;
+            }
         } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
+            LOG.error("SQLException: " + prodidMessage, ex);
             throw ex;
         } catch (Exception ex) {
-            LOG.error("Exception: ", ex);
+            LOG.error("Exception: actualizarIdMessage", ex);
             throw ex;
         }
+        return estado;
     }
 
     public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String estadoAfiliado) throws SQLException, Exception {
+        TreeMap<Integer, byte[]> haspMap = null;
         try {
-
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodidMessageEnvio)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.OUT)
+                    .setParameter(1, estadoAfiliado);
+            query.execute();
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
+            while (rs.next()) {
+                haspMap = new TreeMap<Integer, byte[]>();
+                haspMap.put(Integer.parseInt(rs.getString("IDETRAMA")), rs.getBytes("IDEMESSAGE"));
+            }
         } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
+            LOG.error("SQLException: " + prodidMessageEnvio, ex);
             throw ex;
         } catch (Exception ex) {
-            LOG.error("Exception: ", ex);
+            LOG.error("Exception: obtenerIdmessageEnvio", ex);
             throw ex;
         }
+       return haspMap;
     }
 
 }
