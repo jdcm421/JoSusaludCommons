@@ -102,7 +102,7 @@ public class CommnsController {
     }
     
     @ApiOperation(value = "Actualizar la trama del Afiliado", tags = {"Controlador Commons"})
-    @PutMapping(value = "/actualizar/afiliado", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/actualizar/afiliado", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),

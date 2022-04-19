@@ -67,7 +67,7 @@ public class ComunRepository {
         String result = null;
         try{
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodparametroValor)
-                    .registerStoredProcedureParameter(1, String.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(1, String.class, ParameterMode.REF_CURSOR)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .setParameter(2, parametro);
             query.execute();
