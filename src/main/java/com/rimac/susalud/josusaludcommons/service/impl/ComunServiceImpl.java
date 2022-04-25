@@ -1,15 +1,18 @@
 package com.rimac.susalud.josusaludcommons.service.impl;
 
-import com.rimac.susalud.josusaludcommons.model.DatosMQ;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.rimac.susalud.josusaludcommons.model.DatosMQ;
 import com.rimac.susalud.josusaludcommons.repository.ComunRepository;
 import com.rimac.susalud.josusaludcommons.response.ResponseDTO;
 import com.rimac.susalud.josusaludcommons.response.ResponseDatosMQ;
 import com.rimac.susalud.josusaludcommons.service.ComunService;
 import com.rimac.susalud.josusaludcommons.util.Constan;
+
 import org.springframework.http.HttpStatus;
 
 @Service

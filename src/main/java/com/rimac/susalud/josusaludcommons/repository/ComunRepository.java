@@ -1,5 +1,6 @@
 package com.rimac.susalud.josusaludcommons.repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.persistence.EntityManager;
 import org.slf4j.Logger;
@@ -67,10 +68,10 @@ public class ComunRepository {
     public String obtenerValorParametro(String parametro) throws SQLException, Exception {
         String result = null;
         try{
-            Query query = entityManager.createQuery("{? = call "+prodparametroValor+"(?)}")
-            		.setParameter(2, result);
-            
-            result = (String) query.getParameterValue(1);
+        	result = (String) entityManager.createNativeQuery(
+        	        "SELECT "+prodparametroValor+"(:ac_valor) FROM DUAL"
+        		    ).setParameter("ac_valor", parametro).getSingleResult();
+
         }catch(Exception ex){
             LOG.error("Error Repository obtenerValorParametro", ex);
         }

@@ -130,7 +130,7 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseDTO> obtenerValorParametro(@PathVariable String parametro) {
+    public ResponseEntity<ResponseDTO> obtenerValorParametro(@RequestParam String parametro) {
         return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
     }
     
