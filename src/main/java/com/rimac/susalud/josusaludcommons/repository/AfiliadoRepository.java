@@ -286,7 +286,7 @@ public class AfiliadoRepository {
             	if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) estado =  true;
             }
         } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
+            LOG.error("SQLException: " + prodTramaAfiliado, ex);
             throw ex;
         } catch (Exception ex) {
             LOG.error("Exception: ", ex);

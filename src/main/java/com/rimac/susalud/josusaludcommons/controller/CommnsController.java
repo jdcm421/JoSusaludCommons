@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/commons")
-@Api(value = "commons", produces = "application/json", tags = {"Controlador Commons"})
+@Api(value = "commons", produces = "application/json", tags = {"Controlador Servicio Commons"})
 public class CommnsController {
     
     @Autowired
@@ -35,7 +35,7 @@ public class CommnsController {
     @Autowired
     ComunService comunService;
     
-    @ApiOperation(value = "Se obtiene el afiliado de envio", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Se obtiene el afiliado de envio", tags = {"Controlador Servicio Commons"})
     @GetMapping(value = "/obtener/afiliado-envio", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
@@ -46,7 +46,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.obtenerAfiliadosEnvio(estadoAfiliado));
     }
     
-    @ApiOperation(value = "Obtiene el afiliado para carga inicial", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Obtiene el afiliado para carga inicial", tags = {"Controlador Servicio Commons"})
     @GetMapping(value = "/obtener/afiliado-cargainicial", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseObtenerAfiliados.class),
@@ -57,7 +57,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.obtenerAfiliadosCargaInicial(estadoAfiliado, indicadorCargaInicial));
     }
     
-    @ApiOperation(value = "Obtener afiliados de SuSalud", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Obtener afiliados de SuSalud", tags = {"Controlador Servicio Commons"})
     @GetMapping(value = "/obtener/afiliado-susalud", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseAfiliadosSuSalud.class),
@@ -68,7 +68,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.obtenerAfiliadosSuSalud(estadoTrama));
     }
     
-    @ApiOperation(value = "Obtener el id de mensaje de envio", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Obtener el id de mensaje de envio", tags = {"Controlador Servicio Commons"})
     @GetMapping(value = "/obtener/message-envio", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
@@ -79,7 +79,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.obtenerIdmessageEnvio(estadoAfiliado));
     }
     
-    @ApiOperation(value = "Insertar respuesta susalud", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Insertar respuesta susalud", tags = {"Controlador Servicio Commons"})
     @PostMapping(value = "/insertar/susalud", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
@@ -90,8 +90,8 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.insertarSuSaludRespuesta(request.getTramaestado(), request.getIndcargainicial(), request.getAfiliadoRpta(), request.getMsgId()));
     }
     
-    @ApiOperation(value = "Actalizar id del Mensaje", tags = {"Controlador Commons"})
-    @PutMapping(value = "/actualizar/id", consumes = "application/json", produces = "application/json")
+    @ApiOperation(value = "Actalizar id del Mensaje", tags = {"Controlador Servicio Commons"})
+    @PutMapping(value = "/actualizar/message-id", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
@@ -101,7 +101,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.actualizarIdMessage(request.getIdTrama(), request.getIdmessage()));
     }
     
-    @ApiOperation(value = "Actualizar la trama del Afiliado", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Actualizar la trama del Afiliado", tags = {"Controlador Servicio Commons"})
     @PutMapping(value = "/actualizar/afiliado", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
@@ -112,7 +112,7 @@ public class CommnsController {
         return ResponseEntity.ok().body(service.actualizarTramaAfiliado(idTrama, estadoAfiliado));
     }
     
-    @ApiOperation(value = "Se obtiene los datos de MQ", tags = {"Controlador Commons"})
+    @ApiOperation(value = "Se obtiene los datos de MQ", tags = {"Controlador Servicio Commons"})
     @GetMapping(value = "/obtener/datosMQ", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDatosMQ.class),
@@ -123,8 +123,8 @@ public class CommnsController {
         return ResponseEntity.ok().body(comunService.obtenerDatosMQ());
     }
     
-    @ApiOperation(value = "Se obtienes los valores del parametro enviado", tags = {"Controlador Commons"})
-    @GetMapping(value = "/obtener/valor/{parametro}", produces = "application/json")
+    @ApiOperation(value = "Se obtienes los valores del parametro enviado", tags = {"Controlador Servicio Commons"})
+    @GetMapping(value = "/obtener/valor-parametros", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
@@ -133,4 +133,6 @@ public class CommnsController {
     public ResponseEntity<ResponseDTO> obtenerValorParametro(@PathVariable String parametro) {
         return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
     }
+    
+    
 }

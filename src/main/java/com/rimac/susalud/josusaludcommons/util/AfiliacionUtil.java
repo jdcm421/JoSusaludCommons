@@ -3,6 +3,7 @@ package com.rimac.susalud.josusaludcommons.util;
 import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
 import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdateException;
 import com.rimac.susalud.josusaludcommons.model.Trama997Bean;
+import com.rimac.susalud.josusaludcommons.service.RegafiUpdate997Service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,13 +24,17 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.Vector;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AfiliacionUtil {
 
     static Logger logger = LoggerFactory.getLogger(AfiliacionUtil.class);
+
+    @Autowired
+    RegafiUpdate997Service salida;
+
     static protected HashMap<String, String> mapErrorDescripcion;
     static protected HashMap<String, String> mapErrorCampo;
 
@@ -91,63 +96,62 @@ public class AfiliacionUtil {
         }
     }
 
-//    public static Trama997Bean procesarTrama997(String trama, String id) throws Exception {
-//        Trama997Bean bean = null;
-//        try {
-//            if (mapErrorCampo == null) {
-//                mapErrorCampo = new HashMap<String, String>();
-//                leerArchivoCSV(Constan.ERROR_CAMPO_CSV, mapErrorCampo);
-//            }
-//            if (mapErrorDescripcion == null) {
-//                mapErrorDescripcion = new HashMap<String, String>();
-//                leerArchivoCSV(Constan.ERROR_DESCRIPCION_CSV, mapErrorDescripcion);
-//            }
-//            String tramax12 = extraerRespuestaSuSalud(trama, Constan.TAG997);
-//            RegafiUpdate997Service salida = new RegafiUpdate997ServiceImpl();
-//            In997RegafiUpdate bo = salida.x12NToBean(tramax12);
-//            bo.setFlag(true);
-//            Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
-//            List<In997RegafiUpdateExcepcion> excepciones = bo.getDetallesExcepcion();
-//
-//            for (In997RegafiUpdateExcepcion ex : excepciones) {
-//                Vector<String> fila = new Vector<String>();
-//                String coCampoErr = ex.getCoCampoErr();
-//                fila.add(coCampoErr);
-//                fila.add(mapErrorCampo.get(coCampoErr));
-//                fila.add(String.valueOf(ex.isFlagExcepcion())); //flag
-//                String coDescripError = ex.getInCoErrorEncontrado();
-//                fila.add(coDescripError);
-//                fila.add(mapErrorDescripcion.get(coDescripError));
-//                fila.add(ex.getPkAfiliado());
-//                fila.add(ex.getPkAfiliadopkAfiliacion());
-//                dataVector.add(fila);
-//            }
-//
-//            bean = new Trama997Bean();
-//            bean.setFeTransaccion(bo.getFeTransaccion());
-//            bean.setHoTransaccion(bo.getHoTransaccion());
-//            bean.setIdCorrelativo(bo.getIdCorrelativo());
-//            bean.setIdReceptor(bo.getIdReceptor());
-//            bean.setIdRemitente(bo.getIdRemitente());
-//            bean.setIdTransaccion(bo.getIdTransaccion());
-//            bean.setNoTransaccion(bean.getNoTransaccion());
-//
-//            bean.setNuControl(bo.getNuControl());
-//            bean.setNuControlST(bean.getNuControlST());
-//            bean.setNuControlST(trama);
-//            bean.setNuControl(id);//msgid
-//
-//            bean.setExcepciones(dataVector);
-//            bean.setDato(bo);
-//        } catch (Exception e) {
-//            throw e;
-//        } finally {
-//
-//        }
-//
-//        return bean;
-//    }
-//
+    public Trama997Bean procesarTrama997(String trama, String id) throws Exception {
+        Trama997Bean bean = null;
+        try {
+            if (mapErrorCampo == null) {
+                mapErrorCampo = new HashMap<String, String>();
+                leerArchivoCSV(Constan.ERROR_CAMPO_CSV, mapErrorCampo);
+            }
+            if (mapErrorDescripcion == null) {
+                mapErrorDescripcion = new HashMap<String, String>();
+                leerArchivoCSV(Constan.ERROR_DESCRIPCION_CSV, mapErrorDescripcion);
+            }
+            String tramax12 = extraerRespuestaSuSalud(trama, Constan.TAG997);
+            In997RegafiUpdate bo = salida.x12NToBean(tramax12);
+            bo.setFlag(true);
+            Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
+            List<In997RegafiUpdateException> excepciones = bo.getDetallesException();
+
+            for (In997RegafiUpdateException ex : excepciones) {
+                Vector<String> fila = new Vector<String>();
+                String coCampoErr = ex.getCoCampoErr();
+                fila.add(coCampoErr);
+                fila.add(mapErrorCampo.get(coCampoErr));
+                fila.add(String.valueOf(ex.isFlagExcepcion())); //flag
+                String coDescripError = ex.getInCoErrorEncontrado();
+                fila.add(coDescripError);
+                fila.add(mapErrorDescripcion.get(coDescripError));
+                fila.add(ex.getPkAfiliado());
+                fila.add(ex.getPkAfiliadopkAfiliacion());
+                dataVector.add(fila);
+            }
+
+            bean = new Trama997Bean();
+            bean.setFeTransaccion(bo.getFeTransaccion());
+            bean.setHoTransaccion(bo.getHoTransaccion());
+            bean.setIdCorrelativo(bo.getIdCorrelativo());
+            bean.setIdReceptor(bo.getIdReceptor());
+            bean.setIdRemitente(bo.getIdRemitente());
+            bean.setIdTransaccion(bo.getIdTransaccion());
+            bean.setNoTransaccion(bean.getNoTransaccion());
+
+            bean.setNuControl(bo.getNuControl());
+            bean.setNuControlST(bean.getNuControlST());
+            bean.setNuControlST(trama);
+            bean.setNuControl(id);//msgid
+
+            bean.setExcepciones(dataVector);
+            bean.setDato(bo);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+
+        }
+
+        return bean;
+    }
+
     public static String CreateXML(String X12N) {
 
         String xml = "<sus:Online271RegafiUpdateRequest xmlns:sus=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.susalud.gob.pe/Afiliacion/Online271RegafiUpdateRequest.xsd ../MsgSetProjOnline271RegafiUpdateRequest/importFiles/Online271RegafiUpdateRequest.xsd \">"
@@ -195,6 +199,7 @@ public class AfiliacionUtil {
 
         return tramaEstadoRespuesta;
     }
+
     public static String descripcionErrorServicioSuSalud(String codigoErrorSuSalud) {
 
         String descripcionError = "";

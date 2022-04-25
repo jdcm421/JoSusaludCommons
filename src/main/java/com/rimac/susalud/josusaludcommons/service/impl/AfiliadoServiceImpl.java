@@ -32,12 +32,14 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         ResponseObtenerAfiliados responseObtenerAfiliados = new ResponseObtenerAfiliados();
         List<AfiliadoEnvio> servicios = new ArrayList<>();
         try {
+        	LOG.info("obtenerAfiliadosEnvio", estadoAfiliado);
             servicios = afiliadoRepository.obtenerAfiliadosEnvio(estadoAfiliado);
             if (servicios.isEmpty()) {
                 responseObtenerAfiliados.setCodigo(HttpStatus.NO_CONTENT.toString());
                 responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado);
                 responseObtenerAfiliados.setMensaje(null);
                 responseObtenerAfiliados.setAfiliados(null);
+                LOG.warn("Atencion no se obtuvo datos obtenerAfiliadosEnvio", responseObtenerAfiliados, servicios);
                 return responseObtenerAfiliados;
             }
 

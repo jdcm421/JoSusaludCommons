@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
 import javax.persistence.ParameterMode;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 
@@ -66,12 +67,10 @@ public class ComunRepository {
     public String obtenerValorParametro(String parametro) throws SQLException, Exception {
         String result = null;
         try{
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodparametroValor)
-                    .registerStoredProcedureParameter(1, String.class, ParameterMode.REF_CURSOR)
-                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
-                    .setParameter(2, parametro);
-            query.execute();
-            result = (String) query.getOutputParameterValue(1);
+            Query query = entityManager.createQuery("{? = call "+prodparametroValor+"(?)}")
+            		.setParameter(2, result);
+            
+            result = (String) query.getParameterValue(1);
         }catch(Exception ex){
             LOG.error("Error Repository obtenerValorParametro", ex);
         }
