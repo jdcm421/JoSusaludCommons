@@ -8,12 +8,12 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.ibm.mq.MQException;
+/*import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQMessage;
 import com.ibm.mq.MQQueue;
 import com.ibm.mq.MQQueueManager;
-import com.ibm.mq.constants.CMQC;
+import com.ibm.mq.constants.CMQC;*/
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
 import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
 import com.rimac.susalud.josusaludcommons.repository.AfiliadoRepository;
@@ -24,7 +24,7 @@ import com.rimac.susalud.josusaludcommons.service.RegafiUpdate997Service;
 import com.rimac.susalud.josusaludcommons.util.AfiliacionUtil;
 import com.rimac.susalud.josusaludcommons.util.Constan;
 import java.util.HashMap;
-import org.apache.commons.codec.binary.Hex;
+//import org.apache.commons.codec.binary.Hex;
 
 public class ConnectionMQImpl implements ConnectionMQ {
 
@@ -39,7 +39,7 @@ public class ConnectionMQImpl implements ConnectionMQ {
     @Override
     public Response sendMessageSyn(TreeMap<Integer, String> mapListaEnvioMQ, DatosMQ datosMQ,
             Long hiloId) {
-        Response response = new Response();
+        /*Response response = new Response();
         MQQueueManager queueManagerRimac = null;
         MQQueue queueRequestSuSalud = null;
         MQMessage messageSenderSuSaludMQ = null;
@@ -120,14 +120,15 @@ public class ConnectionMQImpl implements ConnectionMQ {
                 LOG.info("Disconnecting from the Queue Manager " + queueManagerRimac.getName().trim() + " ...");
                 queueManagerRimac.disconnect();
             }
-        }
+        }*/
+    	return new Response();
     }
 
     @Override
     public Response getMessageSyn(TreeMap<Integer, byte[]> mapAfiliadosRespuestaEnvioMQ,
             DatosMQ datosMQ) {
         Response response = new Response();
-        int isContinuar = 0;
+        /*int isContinuar = 0;
         //int numReIntentos = Integer.parseInt(datosMQ.getnRetry()); 
         int totalMensajesPendientes = mapAfiliadosRespuestaEnvioMQ.size();
 
@@ -241,14 +242,15 @@ public class ConnectionMQImpl implements ConnectionMQ {
                 LOG.info("Disconnecting from the Queue Manager " + queueManagerRimac.getName().trim() + " ...");
                 queueManagerRimac.disconnect();
             }
-        }
+        }*/
+        return response;
     }
 
     @SuppressWarnings("unused")
     private HashMap<String, Object> seteoPropiedades(DatosMQ datosMQ) {
         HashMap<String, Object> hashProperties = new HashMap<String, Object>();
 
-        try {
+        /*try {
             TripleDesUtil tripleDesUtil = new TripleDesUtil();
 
             String channelName = datosMQ.getChannelMQ();
@@ -266,8 +268,9 @@ public class ConnectionMQImpl implements ConnectionMQ {
             hashProperties.put(CMQC.TRANSPORT_PROPERTY, CMQC.TRANSPORT_MQSERIES_CLIENT);
         } catch (Exception ex) {
             LOG.error("Exception: ", ex);
-        }
+        }*/
 
         return hashProperties;
     }
+    	
 }
