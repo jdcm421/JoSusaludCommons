@@ -5,9 +5,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.codec.ByteArrayDecoder;
+import org.springframework.core.codec.ByteArrayEncoder;
 /*import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQMessage;
@@ -23,6 +30,10 @@ import com.rimac.susalud.josusaludcommons.service.ConnectionMQ;
 import com.rimac.susalud.josusaludcommons.service.RegafiUpdate997Service;
 import com.rimac.susalud.josusaludcommons.util.AfiliacionUtil;
 import com.rimac.susalud.josusaludcommons.util.Constan;
+
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 //import org.apache.commons.codec.binary.Hex;
 
@@ -35,6 +46,11 @@ public class ConnectionMQImpl implements ConnectionMQ {
 
     @Autowired
     ComunRepository comunRepository;
+    
+    Cipher encryptCipher;
+	Cipher decryptCipher;
+	ByteArrayEncoder base64Encoder;
+	ByteArrayDecoder base64Decoder;
 
     @Override
     public Response sendMessageSyn(TreeMap<Integer, String> mapListaEnvioMQ, DatosMQ datosMQ,
@@ -272,5 +288,80 @@ public class ConnectionMQImpl implements ConnectionMQ {
 
         return hashProperties;
     }
-    	
+    
+    /*private Cipher encryptCipher;
+	private Cipher decryptCipher;
+	private BASE64Encoder base64Encoder = new BASE64Encoder();
+	private BASE64Decoder base64Decoder = new BASE64Decoder();
+	private byte[] ivBytes = {0x0a, 0x07, 0x02, 0x0b, 0x09, 0x04, 0x01, 0x0c};//Initialization Vector por defecto
+	private byte[] keyBytes = { //llave por defecto
+		0x02, 0x05, 0x01, 0x0e, 0x02, 0x03, 0x0b, 0x07,
+		0x0c, 0x02, 0x03, 0x05, 0x06, 0x02, 0x0a, 0x09,
+		0x0a, 0x07, 0x02, 0x03, 0x09, 0x01, 0x04, 0x04,
+	};
+	
+	
+	/**
+	 * Constructor que se encarga de setear los valores para el cifrado de las cadenas. Setea el algoritmo y el proveedor
+	 * Fecha: 29/12/2006
+	 * @author Synopsis S.A. - César Tominaga
+	 * @param keyBytes Arreglo de bytes conteniendo la llave de encriptación
+	 * @param ivBytes Arreglo de bytes con los que se combinará la encriptación(método CBC)
+	 * @throws Exception
+	 */
+	/*public TripleDesUtil()throws Exception{
+		SecretKey key = new SecretKeySpec(this.keyBytes, "DESede");
+		IvParameterSpec iv = new IvParameterSpec(this.ivBytes);
+		this.encryptCipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+		this.encryptCipher.init(javax.crypto.Cipher.ENCRYPT_MODE, key, iv);
+		this.decryptCipher = Cipher.getInstance("DESede/CBC/PKCS5Padding");
+		this.decryptCipher.init(javax.crypto.Cipher.DECRYPT_MODE, key, iv);
+	}
+	
+	/**
+	 * Metodo encargado de la encriptación de cadenas
+	 * Fecha: 29/12/2006
+	 * @author Synopsis S.A. - César Tominaga
+	 * @param cadena Texto a encriptar
+	 * @return texto encriptado
+	 * @throws Exception
+	 */
+	/*public String encripta(String cadena) throws Exception{
+		byte[] cadenaBytes = cadena.getBytes("ASCII");
+		byte[] cadenaBytesencriptada = this.encryptCipher.doFinal(cadenaBytes);
+		String cadenaEncriptadaCodificada = this.base64Encoder.encode(cadenaBytesencriptada);
+		return cadenaEncriptadaCodificada;
+	}*/
+	
+	/**
+	 * Metodo encargadao de la desencriptación de cadenas
+	 * Fecha: 29/12/2006
+	 * @author Synopsis S.A. - César Tominaga
+	 * @param cadenaEncriptada Texto por desencriptar
+	 * @return texto desencriptado
+	 * @throws Exception
+	 */
+	/*public String desencripta(String cadenaEncriptada) throws Exception{
+		byte[] cadenaEncriptadaBytes = this.base64Decoder.decodeBuffer(cadenaEncriptada);
+		byte[] cadenaBytes = this.decryptCipher.doFinal(cadenaEncriptadaBytes);
+		String cadenaDesencriptada = new String(cadenaBytes, "ASCII");
+		return cadenaDesencriptada;
+	}*/
+	
+	/**
+	 * Método encargado de leer un archivo y retornar su contenido como un arreglo de bytes
+	 * Fecha: 29/12/2006
+	 * @author Synopsis S.A. - César Tominaga
+	 * @param rutaArchivo Ruta absoluta del archivo(ruta absoluta + nombre completo del archivo)
+	 * @return Arreglo de bytes con el contenido del archivo leido
+	 * @throws Exception
+	 */
+	/*public static byte[] leerArchivoBytes(String rutaArchivo) throws Exception{
+		File f = new File(rutaArchivo);
+		DataInputStream in = new DataInputStream(new FileInputStream(f));
+		byte[] bytes = new byte[(int) f.length()];
+		in.readFully(bytes);
+		in.close();
+		return bytes;
+	}*/
 }

@@ -166,10 +166,12 @@ public class AfiliadoRepository {
         try {
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadoInicial)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
-                    .setParameter(1, estadoAfiliado);
+                    .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(3, Object.class, ParameterMode.REF_CURSOR)
+                    .setParameter(1, estadoAfiliado)
+                    .setParameter(2, indicadorCargaInicial);
             query.execute();
-            ResultSet rs = (ResultSet) query.getOutputParameterValue(2);
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
             while (rs.next()) {
                 In271RegafiUpdate in271RegafiUpdate = new In271RegafiUpdate();
                 afiliadoEnvio = new AfiliadoEnvio();
@@ -432,10 +434,10 @@ public class AfiliadoRepository {
         try {
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodidMessageEnvio)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .setParameter(1, estadoAfiliado);
             query.execute();
-            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
+            ResultSet rs = (ResultSet) query.getOutputParameterValue(2);
             while (rs.next()) {
                 haspMap = new TreeMap<Integer, byte[]>();
                 haspMap.put(Integer.parseInt(rs.getString("IDETRAMA")), rs.getBytes("IDEMESSAGE"));
