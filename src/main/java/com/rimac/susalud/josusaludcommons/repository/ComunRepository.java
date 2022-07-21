@@ -1,13 +1,14 @@
 package com.rimac.susalud.josusaludcommons.repository;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
+import com.rimac.susalud.josusaludcommons.model.ParametroDetalle;
 import javax.persistence.ParameterMode;
 import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
@@ -76,6 +77,16 @@ public class ComunRepository {
             LOG.error("Error Repository obtenerValorParametro", ex);
         }
         return result;
+    }
+    
+    public ParametroDetalle obtenerSwitch(){
+    	ParametroDetalle parametroDetalle = new ParametroDetalle();
+    	try {
+    		return entityManager.createQuery("SELECT pd FROM ParametroDetalle pd WHERE pd.ideConstante like 'CFG_CONSTANTE_JOB'", ParametroDetalle.class).getSingleResult();
+    	}catch(Exception ex) {
+    		LOG.error("Error en Metodo Obtener Switch ", ex);
+    	}
+    	return parametroDetalle;
     }
 
 }

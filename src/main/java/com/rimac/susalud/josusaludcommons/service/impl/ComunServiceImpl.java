@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
+import com.rimac.susalud.josusaludcommons.model.ParametroDetalle;
 import com.rimac.susalud.josusaludcommons.repository.ComunRepository;
 import com.rimac.susalud.josusaludcommons.response.ResponseDTO;
 import com.rimac.susalud.josusaludcommons.response.ResponseDatosMQ;
+import com.rimac.susalud.josusaludcommons.response.ResponseParametroDet;
 import com.rimac.susalud.josusaludcommons.service.ComunService;
 import com.rimac.susalud.josusaludcommons.util.Constan;
 
@@ -76,4 +78,25 @@ public class ComunServiceImpl implements ComunService {
         }
         return responseDTO;
     }
+
+	@Override
+	public ResponseParametroDet obtenerSwitch() {
+		ResponseParametroDet responseParametroDet = new ResponseParametroDet();
+		ParametroDetalle detalle = new ParametroDetalle();
+		try {
+			detalle = comunRepository.obtenerSwitch();
+			if(detalle == null) {
+				responseParametroDet.setCodigo(HttpStatus.NO_CONTENT.toString());
+				responseParametroDet.setMensaje(HttpStatus.NO_CONTENT.name());
+				responseParametroDet.setError("No se obtiene el parametro de detalle");
+			}
+			responseParametroDet.setCodigo(HttpStatus.OK.toString());
+			responseParametroDet.setMensaje("OK");
+			responseParametroDet.setData(detalle);
+		}catch (Exception e) {
+			LOG.error("Error interno en servicio obtenerSwitch", e);
+			
+		}
+		return responseParametroDet;
+	}
 }

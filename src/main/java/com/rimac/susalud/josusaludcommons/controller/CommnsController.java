@@ -7,6 +7,7 @@ import com.rimac.susalud.josusaludcommons.response.ResponseDTO;
 import com.rimac.susalud.josusaludcommons.response.ResponseAfiliadosSuSalud;
 import com.rimac.susalud.josusaludcommons.response.ResponseDatosMQ;
 import com.rimac.susalud.josusaludcommons.response.ResponseObtenerAfiliados;
+import com.rimac.susalud.josusaludcommons.response.ResponseParametroDet;
 import com.rimac.susalud.josusaludcommons.service.AfiliadoService;
 import com.rimac.susalud.josusaludcommons.service.ComunService;
 import io.swagger.annotations.Api;
@@ -154,5 +155,16 @@ public class CommnsController {
     })
     public ResponseEntity<ResponseDTO> descargarArchivos(@RequestParam String parametro) {
         return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
+    }
+    
+    @ApiOperation(value = "Se Obtiene los parametros para generar la conexion", tags = {"Controlador Servicio Commons"})
+    @GetMapping(value = "/obtener-switch", produces = "application/json")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "OK", response = ResponseParametroDet.class),
+        @ApiResponse(code = 404, message = "Not Found"),
+        @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
+    })
+    public ResponseEntity<ResponseParametroDet> obtenerSwitch() {
+        return ResponseEntity.ok().body(comunService.obtenerSwitch());
     }
 }
