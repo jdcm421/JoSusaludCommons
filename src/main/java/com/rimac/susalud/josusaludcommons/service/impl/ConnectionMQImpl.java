@@ -15,22 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.codec.ByteArrayDecoder;
 import org.springframework.core.codec.ByteArrayEncoder;
-/*import com.ibm.mq.MQException;
-import com.ibm.mq.MQGetMessageOptions;
-import com.ibm.mq.MQMessage;
-import com.ibm.mq.MQQueue;
-import com.ibm.mq.MQQueueManager;
-import com.ibm.mq.constants.CMQC;*/
+
 import com.rimac.susalud.josusaludcommons.model.DatosMQ;
-import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
 import com.rimac.susalud.josusaludcommons.repository.AfiliadoRepository;
 import com.rimac.susalud.josusaludcommons.repository.ComunRepository;
 import com.rimac.susalud.josusaludcommons.response.Response;
 import com.rimac.susalud.josusaludcommons.service.ConnectionMQ;
-import com.rimac.susalud.josusaludcommons.service.RegafiUpdate997Service;
-import com.rimac.susalud.josusaludcommons.util.AfiliacionUtil;
-import com.rimac.susalud.josusaludcommons.util.Constan;
-
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;

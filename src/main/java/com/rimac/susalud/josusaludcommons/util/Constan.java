@@ -34,9 +34,11 @@ public class Constan {
     public static final String ESTADO_BOOLEAN_FALSE = "0";
 
     //Constantes de Base de Datos
-    public static final String PKG_SUSALUD = "APP_IAA_INTERFAZ.PQ_IAA_INTSUSALUD";
+    public static final String PKG_SUSALUD = "APP_IAA_INTERFAZ.PQ_IAA_INTMQ";
+    public static final String PKG_SUSALUD_APP_EPS = "APP_IAA_INTERFAZ.PQ_IAA_INTSUSALUD";
     //public static final String PKG_SUSALUD = "APP_IAA_INTERFAZ.PQ_IAA_INTMQ";
-
+    public static final String BDSAS = "CONSULTA DESDE BDSAS.APP_IAA_INTERFAZ";
+    public static final String BDRSA = "CONSULTA DESDE BDRSA.APP_EPS";
     //Constantes Oracle Type.
     // ojdbc6.jar no soporta ORACLETYPE que si tiene ojdbc14-10.2.0.2.jar.
     //pero genera conflicto en formato de fecha .0 y sale NullpointerException en Framework Rimac.

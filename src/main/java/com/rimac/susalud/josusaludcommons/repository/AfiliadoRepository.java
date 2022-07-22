@@ -50,11 +50,12 @@ public class AfiliadoRepository {
     @Autowired
     EntityManager entityManager;
 
-    public List<AfiliadoEnvio> obtenerAfiliadosEnvio(String estadoAfiliado) throws SQLException, Exception {
+    public List<AfiliadoEnvio> obtenerAfiliadosEnvio(String estadoAfiliado, String Schema) throws SQLException, Exception {
         List<AfiliadoEnvio> lstIn217ResgistrosAFiliadosEnvio = new ArrayList<AfiliadoEnvio>();
         AfiliadoEnvio afiliadoEnvio = null;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadoEnvio)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema +"."+prodAfiliadoEnvio)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .setParameter(1, estadoAfiliado);
@@ -160,11 +161,12 @@ public class AfiliadoRepository {
         return lstIn217ResgistrosAFiliadosEnvio;
     }
 
-    public List<AfiliadoEnvio> obtenerAfiliadosCargaInicial( String estadoAfiliado, String indicadorCargaInicial) throws SQLException, Exception {
+    public List<AfiliadoEnvio> obtenerAfiliadosCargaInicial( String estadoAfiliado, String indicadorCargaInicial , String Schema) throws SQLException, Exception {
         List<AfiliadoEnvio> lstIn217ResgistrosAFiliadosEnvio = new ArrayList<AfiliadoEnvio>();
         AfiliadoEnvio afiliadoEnvio = null;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadoInicial)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema +"."+prodAfiliadoInicial)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, Object.class, ParameterMode.REF_CURSOR)
@@ -272,24 +274,21 @@ public class AfiliadoRepository {
         return lstIn217ResgistrosAFiliadosEnvio;
     }
 
-    public boolean actualizarTramaAfiliado( String idTrama, String estadoAfiliado) throws SQLException, Exception {
+    public boolean actualizarTramaAfiliado( String idTrama, String estadoAfiliado, String Schema) throws SQLException, Exception {
         boolean estado = false;
         try {
-        	StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodTramaAfiliado)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+        	StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema +"."+prodTramaAfiliado)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
                     .setParameter(1, idTrama)
                     .setParameter(2, estadoAfiliado);
             query.execute();
-            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
-            while (rs.next()) {
-            	String strMensaje = rs.getString(3);
-            	if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) estado =  true;
+            String strMensaje = query.getOutputParameterValue(3).toString();
+            if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) {
+            	estado =  true;
             }
-        } catch (SQLException ex) {
-            LOG.error("SQLException: " + prodTramaAfiliado, ex);
-            throw ex;
         } catch (Exception ex) {
             LOG.error("Exception: ", ex);
             throw ex;
@@ -297,11 +296,12 @@ public class AfiliadoRepository {
         return estado;
     }
 
-    public List<AfiliadoRespuesta> obtenerAfiliadosSuSalud(String estadoTrama) throws SQLException, Exception {
+    public List<AfiliadoRespuesta> obtenerAfiliadosSuSalud(String estadoTrama, String Schema) throws SQLException, Exception {
         List<AfiliadoRespuesta> lstAFiliadosRptaSuSalud = new ArrayList<>();
         AfiliadoRespuesta afiliadoSuSalud = null;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodAfiliadosSuSalud)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema +"."+prodAfiliadosSuSalud)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .setParameter(1, estadoTrama);
@@ -341,10 +341,11 @@ public class AfiliadoRepository {
         return lstAFiliadosRptaSuSalud;
     }
 
-    public boolean insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId) throws SQLException, Exception {
+    public boolean insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate afiliadoRpta, byte[] msgId, String Schema) throws SQLException, Exception {
         boolean estado = false;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodsuSaludRPTA)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema+"."+prodsuSaludRPTA)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.IN)
@@ -364,8 +365,8 @@ public class AfiliadoRepository {
                     .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(18, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(19, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(20, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(21, Byte.class, ParameterMode.OUT)
+                    .registerStoredProcedureParameter(20, Byte.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(21, String.class, ParameterMode.OUT)
                     .setParameter(1, tramaestado)
                     .setParameter(2, afiliadoRpta.getNoTransaccion())
                     .setParameter(3, afiliadoRpta.getIdRemitente())
@@ -387,16 +388,10 @@ public class AfiliadoRepository {
                     .setParameter(19, indcargainicial)
                     .setParameter(20, msgId);
             query.execute();
-            ResultSet rs = (ResultSet) query.getOutputParameterValue(21);
-            while (rs.next()) {
-                String strMensaje = rs.getString(3);
-                if (strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) {
-                    estado = true;
-                }
+            String strMensaje = query.getOutputParameterValue(21).toString();
+            if (strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) {
+               estado = true;
             }
-        } catch (SQLException ex) {
-            LOG.error("SQLException: ", ex);
-            throw ex;
         } catch (Exception ex) {
             LOG.error("Exception: ", ex);
             throw ex;
@@ -404,24 +399,21 @@ public class AfiliadoRepository {
         return estado;
     }
 
-    public boolean actualizarIdMessage(String idTrama, byte[] idmessage) throws SQLException, Exception {
+    public boolean actualizarIdMessage(String idTrama, byte[] idmessage, String Schema) throws SQLException, Exception {
         boolean estado = false;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodidMessage)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema+"."+prodidMessage)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Byte.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
                     .setParameter(1, idTrama)
                     .setParameter(2, idmessage);
             query.execute();
-            ResultSet rs = (ResultSet) query.getOutputParameterValue(3);
-            while (rs.next()) {
-            	String strMensaje = rs.getString(3);
-            	if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) estado =  true;
+            String strMensaje = query.getOutputParameterValue(3).toString();
+            if(strMensaje.equals(Constan.ESTADO_TRX_CONFORME)) {
+            	estado =  true;
             }
-        } catch (SQLException ex) {
-            LOG.error("SQLException: " + prodidMessage, ex);
-            throw ex;
         } catch (Exception ex) {
             LOG.error("Exception: actualizarIdMessage", ex);
             throw ex;
@@ -429,10 +421,11 @@ public class AfiliadoRepository {
         return estado;
     }
 
-    public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String estadoAfiliado) throws SQLException, Exception {
+    public TreeMap<Integer, byte[]> obtenerIdmessageEnvio(String estadoAfiliado, String Schema) throws SQLException, Exception {
         TreeMap<Integer, byte[]> haspMap = null;
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodidMessageEnvio)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema+"."+prodidMessageEnvio)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(2, Object.class, ParameterMode.REF_CURSOR)
                     .setParameter(1, estadoAfiliado);

@@ -29,8 +29,12 @@ public class ComunServiceImpl implements ComunService {
     public ResponseDatosMQ obtenerDatosMQ() {
         ResponseDatosMQ responseDatosMQ = new ResponseDatosMQ();
         DatosMQ datosMQ = new DatosMQ();
+        String Schema = "";
         try{
-            datosMQ = comunRepository.obtenerDatosMQ();
+        	Schema = obtenerService();
+            datosMQ = comunRepository.obtenerDatosMQ(Schema);
+            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosEnvio", consulta);
             if (datosMQ == null) {
                 responseDatosMQ.setCodigo(HttpStatus.NO_CONTENT.toString());
                 responseDatosMQ.setError(Constan.GET_SERVICE_REQUEST_ERROR);
@@ -57,8 +61,12 @@ public class ComunServiceImpl implements ComunService {
     public ResponseDTO obtenerValorParametro(String parametro) {
         ResponseDTO responseDTO = new ResponseDTO();
         String resultado = null;
+        String Schema = "";
         try{
-            resultado = comunRepository.obtenerValorParametro(parametro);
+        	Schema = obtenerService();
+            resultado = comunRepository.obtenerValorParametro(parametro, Schema);
+            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosEnvio", consulta);
             if (resultado == null) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
                 responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + parametro);
@@ -95,8 +103,33 @@ public class ComunServiceImpl implements ComunService {
 			responseParametroDet.setData(detalle);
 		}catch (Exception e) {
 			LOG.error("Error interno en servicio obtenerSwitch", e);
-			
+			responseParametroDet.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+			responseParametroDet.setMensaje("ERROR INTERNO");
+			responseParametroDet.setError(e.getMessage());
+			return responseParametroDet;
 		}
 		return responseParametroDet;
+	}
+
+	@Override
+	public String obtenerService() {
+		ParametroDetalle detalle = new ParametroDetalle();
+		String query = "";
+		try {
+			detalle = comunRepository.obtenerSwitch();
+			switch (detalle.getValor()) {
+			case "N":
+				query = Constan.PKG_SUSALUD_APP_EPS;
+				break;
+
+			default:
+				query = Constan.PKG_SUSALUD;
+				break;
+			}
+			LOG.info("ESQUEMA A CONSULTAR " + query);
+		}catch (Exception e) {
+			LOG.error("Error interno en servicio obtenerService", e);
+		}
+		return query;
 	}
 }

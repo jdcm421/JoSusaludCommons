@@ -28,10 +28,11 @@ public class ComunRepository {
     @Autowired
     EntityManager entityManager;
 
-    public DatosMQ obtenerDatosMQ() throws SQLException, Exception {
+    public DatosMQ obtenerDatosMQ(String Schema) throws SQLException, Exception {
         DatosMQ datosMQ = new DatosMQ();
         try {
-            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(prodObtenerValoresMQ)
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
+            StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema+"."+prodObtenerValoresMQ)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.OUT)
                     .registerStoredProcedureParameter(2, String.class, ParameterMode.OUT)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
@@ -66,11 +67,12 @@ public class ComunRepository {
         return datosMQ;
     }
 
-    public String obtenerValorParametro(String parametro) throws SQLException, Exception {
+    public String obtenerValorParametro(String parametro,String Schema) throws SQLException, Exception {
         String result = null;
         try{
+        	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
         	result = (String) entityManager.createNativeQuery(
-        	        "SELECT "+prodparametroValor+"(:ac_valor) FROM DUAL"
+        	        "SELECT "+Schema+"."+prodparametroValor+"(:ac_valor) FROM DUAL"
         		    ).setParameter("ac_valor", parametro).getSingleResult();
 
         }catch(Exception ex){

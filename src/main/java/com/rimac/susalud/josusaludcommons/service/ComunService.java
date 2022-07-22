@@ -9,5 +9,6 @@ public interface ComunService {
 	public ResponseDatosMQ obtenerDatosMQ();
 	public ResponseDTO obtenerValorParametro(String parametro);
 	public ResponseParametroDet obtenerSwitch();
+	public String obtenerService();
 
 }
