@@ -34,7 +34,7 @@ public class ComunServiceImpl implements ComunService {
         	Schema = obtenerService();
             datosMQ = comunRepository.obtenerDatosMQ(Schema);
             String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+        	LOG.info("obtenerDatosMQ " + consulta);
             if (datosMQ == null) {
                 responseDatosMQ.setCodigo(HttpStatus.NO_CONTENT.toString());
                 responseDatosMQ.setError(Constan.GET_SERVICE_REQUEST_ERROR);
@@ -62,25 +62,26 @@ public class ComunServiceImpl implements ComunService {
         ResponseDTO responseDTO = new ResponseDTO();
         String resultado = null;
         String Schema = "";
+        String consulta = "";
         try{
         	Schema = obtenerService();
             resultado = comunRepository.obtenerValorParametro(parametro, Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerValorParametro " + consulta);
             if (resultado == null) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + parametro);
+                responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + parametro + " "+ consulta);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
             responseDTO.setCodigo(HttpStatus.OK.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje(Constan.GET_SERVICE_REQUEST);
+            responseDTO.setMensaje(Constan.GET_SERVICE_REQUEST + " "+ consulta);
             responseDTO.setData(resultado);
         }catch(Exception ex){
             LOG.error("Error Servicio obtenerValorParametro " + parametro, ex);
             responseDTO.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseDTO.setMensaje("Error en el Servicio obtenerIdmessageEnvio");
+            responseDTO.setMensaje("Error en el Servicio obtenerIdmessageEnvio" + " "+ consulta);
             responseDTO.setError(ex.getMessage());
             return responseDTO;
         }

@@ -38,16 +38,17 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         ResponseObtenerAfiliados responseObtenerAfiliados = new ResponseObtenerAfiliados();
         List<AfiliadoEnvio> servicios = new ArrayList<>();
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
         	LOG.info("obtenerAfiliadosEnvio", estadoAfiliado);
-        	String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+        	consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             servicios = afiliadoRepository.obtenerAfiliadosEnvio(estadoAfiliado, Schema);
             if (servicios.isEmpty()) {
                 responseObtenerAfiliados.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado);
+                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado+" "+ consulta);
                 responseObtenerAfiliados.setMensaje(null);
                 responseObtenerAfiliados.setAfiliados(null);
                 LOG.warn("Atencion no se obtuvo datos obtenerAfiliadosEnvio", responseObtenerAfiliados, servicios);
@@ -55,13 +56,13 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             }
 
             responseObtenerAfiliados.setCodigo(HttpStatus.OK.toString());
-            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado);
+            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado+" "+ consulta);
             responseObtenerAfiliados.setError(null);
             responseObtenerAfiliados.setAfiliados(servicios);
         } catch (Exception e) {
             LOG.error("Error Servicio obtenerAfiliadosEnvio " + estadoAfiliado, e);
             responseObtenerAfiliados.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseObtenerAfiliados.setMensaje("Error en el Servicio obtenerAfiliadosEnvio");
+            responseObtenerAfiliados.setMensaje("Error en el Servicio obtenerAfiliadosEnvio" +" "+ consulta);
             responseObtenerAfiliados.setError(e.getMessage());
             return responseObtenerAfiliados;
         }
@@ -74,28 +75,29 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         ResponseObtenerAfiliados responseObtenerAfiliados = new ResponseObtenerAfiliados();
         List<AfiliadoEnvio> servicios = new ArrayList<>();
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
             servicios = afiliadoRepository.obtenerAfiliadosCargaInicial(estadoAfiliado, indicadorCargaInicial, Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (servicios.isEmpty()) {
                 responseObtenerAfiliados.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado + indicadorCargaInicial);
+                responseObtenerAfiliados.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado + indicadorCargaInicial +" "+ consulta);
                 responseObtenerAfiliados.setMensaje(null);
                 responseObtenerAfiliados.setAfiliados(null);
                 return responseObtenerAfiliados;
             }
 
             responseObtenerAfiliados.setCodigo(HttpStatus.OK.toString());
-            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado + " "+ indicadorCargaInicial);
+            responseObtenerAfiliados.setMensaje(Constan.GET_SERVICE_REQUEST + estadoAfiliado + " "+ indicadorCargaInicial +" "+ consulta);
             responseObtenerAfiliados.setError(null);
             responseObtenerAfiliados.setAfiliados(servicios);
         } catch (Exception e) {
             LOG.error("Error Servicio obtenerAfiliadosCargaInicial " + estadoAfiliado + " " + indicadorCargaInicial, e);
             responseObtenerAfiliados.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseObtenerAfiliados.setMensaje("Error en el Servicio obtenerAfiliadosCargaInicial");
+            responseObtenerAfiliados.setMensaje("Error en el Servicio obtenerAfiliadosCargaInicial"+" "+ consulta);
             responseObtenerAfiliados.setError(e.getMessage());
             return responseObtenerAfiliados;
         }
@@ -108,16 +110,17 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         HashMap<String, Object> resultado = new HashMap<>();
         boolean result = false;
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
-        	String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-         	LOG.info("obtenerAfiliadosEnvio", consulta);
+        	consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             result = afiliadoRepository.actualizarTramaAfiliado(idTrama, estadoAfiliado, Schema);
            
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR + idTrama + " " + estadoAfiliado);
+                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR + idTrama + " " + estadoAfiliado+" "+ consulta);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -126,12 +129,12 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado.put("Estado Afiliado ", estadoAfiliado);
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje(Constan.PUT_SERVICE_REQUEST);
+            responseDTO.setMensaje(Constan.PUT_SERVICE_REQUEST +" "+ consulta);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio actualizarTramaAfiliado " + resultado.toString(), e);
             responseDTO.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseDTO.setMensaje("Error en el Servicio actualizarTramaAfiliado");
+            responseDTO.setMensaje("Error en el Servicio actualizarTramaAfiliado"+" "+ consulta);
             responseDTO.setError(e.getMessage());
             return responseDTO;
         }
@@ -143,28 +146,29 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         ResponseAfiliadosSuSalud responseAfiliadosSuSalud = new ResponseAfiliadosSuSalud();
         List<AfiliadoRespuesta> servicios = new ArrayList<>();
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
             servicios = afiliadoRepository.obtenerAfiliadosSuSalud(estadoTrama, Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (servicios.isEmpty()) {
                 responseAfiliadosSuSalud.setCodigo(HttpStatus.NO_CONTENT.toString());
-                responseAfiliadosSuSalud.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoTrama);
+                responseAfiliadosSuSalud.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoTrama+" "+ consulta);
                 responseAfiliadosSuSalud.setMensaje(null);
                 responseAfiliadosSuSalud.setObtenerAfiliadosSuSalud(null);
                 return responseAfiliadosSuSalud;
             }
 
             responseAfiliadosSuSalud.setCodigo(HttpStatus.OK.toString());
-            responseAfiliadosSuSalud.setMensaje(Constan.GET_SERVICE_REQUEST + estadoTrama);
+            responseAfiliadosSuSalud.setMensaje(Constan.GET_SERVICE_REQUEST + estadoTrama+" "+ consulta);
             responseAfiliadosSuSalud.setError(null);
             responseAfiliadosSuSalud.setObtenerAfiliadosSuSalud(servicios);
         } catch (Exception e) {
             LOG.error("Error Servicio obtenerAfiliadosEnvio " + estadoTrama, e);
             responseAfiliadosSuSalud.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseAfiliadosSuSalud.setMensaje("Error en el Servicio obtenerAfiliadosEnvio");
+            responseAfiliadosSuSalud.setMensaje("Error en el Servicio obtenerAfiliadosEnvio"+" "+ consulta);
             responseAfiliadosSuSalud.setError(e.getMessage());
             return responseAfiliadosSuSalud;
         }
@@ -178,15 +182,16 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         HashMap<String, Object> resultado = new HashMap<>();
         boolean result = false;
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
             result = afiliadoRepository.insertarSuSaludRespuesta(tramaestado, indcargainicial, afiliadoRpta, msgId, Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError(Constan.POST_SERVICE_REQUEST_ERROR);
+                responseDTO.setError(Constan.POST_SERVICE_REQUEST_ERROR+" "+ consulta);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -197,12 +202,12 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado.put("Mesagge Id", msgId);
             responseDTO.setCodigo(HttpStatus.CREATED.toString());
             responseDTO.setError(null);
-            responseDTO.setMensaje(Constan.POST_SERVICE_REQUEST);
+            responseDTO.setMensaje(Constan.POST_SERVICE_REQUEST +" "+ consulta);
             responseDTO.setData(resultado);
         } catch (Exception e) {
             LOG.error("Error Servicio insertarSuSaludRespuesta" + resultado.toString(), e);
             responseDTO.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseDTO.setMensaje("Error en el Servicio insertarSuSaludRespuesta");
+            responseDTO.setMensaje("Error en el Servicio insertarSuSaludRespuesta"+" "+ consulta);
             responseDTO.setError(e.getMessage());
             return responseDTO;
         }
@@ -215,15 +220,16 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         HashMap<String, Object> resultado = new HashMap<>();
         boolean result = false;
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
             result = afiliadoRepository.actualizarIdMessage(idTrama, idmessage,Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (!result) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR);
+                responseDTO.setError(Constan.PUT_SERVICE_REQUEST_ERROR+" "+ consulta);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -237,7 +243,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         } catch (Exception e) {
             LOG.error("Error Servicio actualizarIdMessage " + resultado.toString(), e);
             responseDTO.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseDTO.setMensaje("Error en el Servicio actualizarIdMessage");
+            responseDTO.setMensaje("Error en el Servicio actualizarIdMessage"+" "+ consulta);
             responseDTO.setError(e.getMessage());
             return responseDTO;
         }
@@ -249,15 +255,16 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         ResponseDTO responseDTO = new ResponseDTO();
         TreeMap<Integer, byte[]> resultado = new TreeMap<>();
         String Schema = "";
+        String consulta = "";
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
             resultado = afiliadoRepository.obtenerIdmessageEnvio(estadoAfiliado,Schema);
-            String consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
-        	LOG.info("obtenerAfiliadosEnvio", consulta);
+            consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
+        	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (resultado.isEmpty()) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
-                responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado);
+                responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado+" "+ consulta);
                 responseDTO.setMensaje(null);
                 return responseDTO;
             }
@@ -268,7 +275,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         } catch (Exception e) {
             LOG.error("Error Servicio obtenerIdmessageEnvio " + estadoAfiliado, e);
             responseDTO.setCodigo(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-            responseDTO.setMensaje("Error en el Servicio obtenerIdmessageEnvio");
+            responseDTO.setMensaje("Error en el Servicio obtenerIdmessageEnvio"+" "+ consulta);
             responseDTO.setError(e.getMessage());
             return responseDTO;
         }
