@@ -98,8 +98,8 @@ public class CommnsController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseDTO> actualizarIdMessage(@RequestBody MessageRequest request) {
-        return ResponseEntity.ok().body(service.actualizarIdMessage(request.getIdTrama(), request.getIdmessage()));
+    public ResponseEntity<ResponseDTO> actualizarIdMessage(@RequestParam String idTrama, @RequestParam byte[] idMessage) {
+        return ResponseEntity.ok().body(service.actualizarIdMessage(idTrama,idMessage));
     }
     
     @ApiOperation(value = "Actualizar la trama del Afiliado", tags = {"Controlador Servicio Commons"})
