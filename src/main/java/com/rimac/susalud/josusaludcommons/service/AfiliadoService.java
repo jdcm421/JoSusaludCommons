@@ -15,9 +15,9 @@ public interface AfiliadoService {
 
     public ResponseAfiliadosSuSalud obtenerAfiliadosSuSalud(String estadoTrama);
 
-    public ResponseDTO insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate in997RegafiUpdate, byte[] msgId);
+    public ResponseDTO insertarSuSaludRespuesta(String tramaestado, String indcargainicial, In997RegafiUpdate in997RegafiUpdate, String msgId);
 
-    public ResponseDTO actualizarIdMessage(String idTrama, byte[] idmessage);
+    public ResponseDTO actualizarIdMessage(String idTrama, String idmessage);
 
     public ResponseDTO obtenerIdmessageEnvio(String estadoAfiliado);
 

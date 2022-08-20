@@ -1,12 +1,5 @@
 package com.rimac.susalud.josusaludcommons.repository;
 
-import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdateAfiliacion;
-import com.rimac.susalud.josusaludcommons.model.AfiliadoEnvio;
-import com.rimac.susalud.josusaludcommons.model.AfiliadoRespuesta;
-import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdate;
-import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdateAfiliado;
-import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
-import com.rimac.susalud.josusaludcommons.util.Constan;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import com.rimac.susalud.josusaludcommons.model.AfiliadoEnvio;
+import com.rimac.susalud.josusaludcommons.model.AfiliadoRespuesta;
+import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdateAfiliacion;
+import com.rimac.susalud.josusaludcommons.model.In271RegafiUpdateAfiliado;
+import com.rimac.susalud.josusaludcommons.model.In997RegafiUpdate;
+import com.rimac.susalud.josusaludcommons.util.Constan;
 
 @Repository
 public class AfiliadoRepository {
@@ -365,7 +365,7 @@ public class AfiliadoRepository {
                     .registerStoredProcedureParameter(17, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(18, String.class, ParameterMode.IN)
                     .registerStoredProcedureParameter(19, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(20, Byte.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(20, byte[].class, ParameterMode.IN)
                     .registerStoredProcedureParameter(21, String.class, ParameterMode.OUT)
                     .setParameter(1, tramaestado)
                     .setParameter(2, afiliadoRpta.getNoTransaccion())
@@ -377,7 +377,7 @@ public class AfiliadoRepository {
                     .setParameter(8, afiliadoRpta.getIdTransaccion())
                     .setParameter(9, afiliadoRpta.getExcProceso())
                     .setParameter(10, afiliadoRpta.getDetallesException().iterator().next().getExcBD())
-                    .setParameter(11, afiliadoRpta.getDetallesException().iterator().next().getCoCampoErr())
+                    .setParameter(11, afiliadoRpta.getDetallesException().iterator().next().getCoCampoErr() != null ? afiliadoRpta.getDetallesException().iterator().next().getCoCampoErr() : "")
                     .setParameter(12, afiliadoRpta.getDetallesException().iterator().next().getInCoErrorEncontrado())
                     .setParameter(13, afiliadoRpta.getDetallesException().iterator().next().getPkAfiliado())
                     .setParameter(14, afiliadoRpta.getDetallesException().iterator().next().getPkAfiliadopkAfiliacion())
@@ -405,7 +405,7 @@ public class AfiliadoRepository {
         	LOG.info("ESQUEMAS A CONSULTAR " + Schema);
             StoredProcedureQuery query = entityManager.createStoredProcedureQuery(Schema+"."+prodidMessage)
                     .registerStoredProcedureParameter(1, String.class, ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, Byte.class, ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, byte[].class, ParameterMode.IN)
                     .registerStoredProcedureParameter(3, String.class, ParameterMode.OUT)
                     .setParameter(1, idTrama)
                     .setParameter(2, idmessage);

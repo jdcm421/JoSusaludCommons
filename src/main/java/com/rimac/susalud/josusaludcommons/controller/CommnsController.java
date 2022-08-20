@@ -92,13 +92,13 @@ public class CommnsController {
     }
     
     @ApiOperation(value = "Actalizar id del Mensaje", tags = {"Controlador Servicio Commons"})
-    @PutMapping(value = "/actualizar/message-id", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/actualizar/message-id", produces = "application/json")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
-    public ResponseEntity<ResponseDTO> actualizarIdMessage(@RequestParam String idTrama, @RequestParam byte[] idMessage) {
+    public ResponseEntity<ResponseDTO> actualizarIdMessage(@RequestParam String idTrama, @RequestParam String idMessage) {
         return ResponseEntity.ok().body(service.actualizarIdMessage(idTrama,idMessage));
     }
     
@@ -132,28 +132,6 @@ public class CommnsController {
         @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
     })
     public ResponseEntity<ResponseDTO> obtenerValorParametro(@RequestParam String parametro) {
-        return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
-    }
-    
-    @ApiOperation(value = "Se realiza envio de mensaje a MQ", tags = {"Controlador Servicio Commons"})
-    @GetMapping(value = "/enviar/mensaje-mq", produces = "application/json")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
-        @ApiResponse(code = 404, message = "Not Found"),
-        @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
-    })
-    public ResponseEntity<ResponseDTO> enviarMensajeMQ(@RequestParam String parametro) {
-        return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
-    }
-    
-    @ApiOperation(value = "Se realiza descarga de servicio y arichivos", tags = {"Controlador Servicio Commons"})
-    @GetMapping(value = "/download-file", produces = "application/json")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "OK", response = ResponseDTO.class),
-        @ApiResponse(code = 404, message = "Not Found"),
-        @ApiResponse(code = 500, message = "Error en el Servidor", response = ExceptionResponse.class)
-    })
-    public ResponseEntity<ResponseDTO> descargarArchivos(@RequestParam String parametro) {
         return ResponseEntity.ok().body(comunService.obtenerValorParametro(parametro));
     }
     

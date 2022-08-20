@@ -21,6 +21,9 @@ import com.rimac.susalud.josusaludcommons.repository.AfiliadoRepository;
 import com.rimac.susalud.josusaludcommons.repository.ComunRepository;
 import com.rimac.susalud.josusaludcommons.response.Response;
 import com.rimac.susalud.josusaludcommons.service.ConnectionMQ;
+
+import sun.misc.BASE64Decoder;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,8 +42,7 @@ public class ConnectionMQImpl implements ConnectionMQ {
     
     Cipher encryptCipher;
 	Cipher decryptCipher;
-	ByteArrayEncoder base64Encoder;
-	ByteArrayDecoder base64Decoder;
+	private BASE64Decoder base64Decoder = new BASE64Decoder();
 
     @Override
     public Response sendMessageSyn(TreeMap<Integer, String> mapListaEnvioMQ, DatosMQ datosMQ,
@@ -331,12 +333,12 @@ public class ConnectionMQImpl implements ConnectionMQ {
 	 * @return texto desencriptado
 	 * @throws Exception
 	 */
-	/*public String desencripta(String cadenaEncriptada) throws Exception{
+	public String desencripta(String cadenaEncriptada) throws Exception{
 		byte[] cadenaEncriptadaBytes = this.base64Decoder.decodeBuffer(cadenaEncriptada);
 		byte[] cadenaBytes = this.decryptCipher.doFinal(cadenaEncriptadaBytes);
 		String cadenaDesencriptada = new String(cadenaBytes, "ASCII");
 		return cadenaDesencriptada;
-	}*/
+	}
 	
 	/**
 	 * Método encargado de leer un archivo y retornar su contenido como un arreglo de bytes

@@ -7,7 +7,7 @@ public class SuSaludRequest extends AfiliadoRequest {
     private String tramaestado;
     private String indcargainicial;
     private In997RegafiUpdate afiliadoRpta;
-    private byte[] msgId;
+    private String msgId;
 
     public String getTramaestado() {
         return tramaestado;
@@ -33,12 +33,11 @@ public class SuSaludRequest extends AfiliadoRequest {
         this.afiliadoRpta = afiliadoRpta;
     }
 
-    public byte[] getMsgId() {
-        return msgId;
-    }
+	public String getMsgId() {
+		return msgId;
+	}
 
-    public void setMsgId(byte[] msgId) {
-        this.msgId = msgId;
-    }
-
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
 }

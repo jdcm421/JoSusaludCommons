@@ -2,8 +2,6 @@ package com.rimac.susalud.josusaludcommons.service.impl;
 
 import com.rimac.susalud.josusaludcommons.model.AfiliadoEnvio;
 import com.rimac.susalud.josusaludcommons.model.AfiliadoRespuesta;
-
-import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +175,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
 
     @Override
     public ResponseDTO insertarSuSaludRespuesta(String tramaestado, String indcargainicial,
-            In997RegafiUpdate afiliadoRpta, byte[] msgId) {
+            In997RegafiUpdate afiliadoRpta, String msgId) {
         ResponseDTO responseDTO = new ResponseDTO();
         HashMap<String, Object> resultado = new HashMap<>();
         boolean result = false;
@@ -186,7 +184,8 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
-            result = afiliadoRepository.insertarSuSaludRespuesta(tramaestado, indcargainicial, afiliadoRpta, msgId, Schema);
+        	byte[] idMessage = msgId.getBytes();
+            result = afiliadoRepository.insertarSuSaludRespuesta(tramaestado, indcargainicial, afiliadoRpta, idMessage, Schema);
             consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
         	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (!result) {
@@ -215,7 +214,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
     }
 
     @Override
-    public ResponseDTO actualizarIdMessage(String idTrama, byte[] idmessage) {
+    public ResponseDTO actualizarIdMessage(String idTrama, String idmessage) {
         ResponseDTO responseDTO = new ResponseDTO();
         HashMap<String, Object> resultado = new HashMap<>();
         boolean result = false;
@@ -224,7 +223,8 @@ public class AfiliadoServiceImpl implements AfiliadoService {
         try {
         	Schema = comunService.obtenerService();
         	LOG.info("Schema a consultar es " + Schema);
-            result = afiliadoRepository.actualizarIdMessage(idTrama, idmessage,Schema);
+        	byte[] idMessages = idmessage.getBytes();
+            result = afiliadoRepository.actualizarIdMessage(idTrama, idMessages,Schema);
             consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
         	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
             if (!result) {
@@ -262,7 +262,7 @@ public class AfiliadoServiceImpl implements AfiliadoService {
             resultado = afiliadoRepository.obtenerIdmessageEnvio(estadoAfiliado,Schema);
             consulta = Schema.equals(Constan.PKG_SUSALUD) ? Constan.BDSAS : Constan.BDRSA;
         	LOG.info("obtenerAfiliadosCargaInicial " + consulta);
-            if (resultado.isEmpty()) {
+            if (resultado.isEmpty() || resultado == null) {
                 responseDTO.setCodigo(HttpStatus.NOT_IMPLEMENTED.toString());
                 responseDTO.setError(Constan.GET_SERVICE_REQUEST_ERROR + estadoAfiliado+" "+ consulta);
                 responseDTO.setMensaje(null);
